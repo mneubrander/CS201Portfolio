@@ -3,12 +3,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-char* readstring(char* str) {
+char* readstring(int maxlength) {
 
   char temp;
   int count = 0;
-  str="\0";
-  int maxlength = 10;
+  char* str= malloc(maxlength*sizeof(char));
 
   while(temp!='\0'){
     scanf("%c", &temp);
@@ -17,6 +16,7 @@ char* readstring(char* str) {
       t[0] = temp;
       t[1] = '\0';
       printf("%s\n", str);
+      strncat(str, t,1);
     }
     else{break;}
     count++;

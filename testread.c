@@ -4,10 +4,7 @@
 #include <ctype.h>
 
 int stringisalpha(char*str) {
-  printf("%d\n", strlen(str));
   for (int i = 0; i < strlen(str); i++) {
-    printf("%c ",*(str+i));
-    printf("%d\n",isalpha(*(str+i)));
     if (!isalpha(*(str+i))) return 0;
   }
   return 1;
@@ -18,7 +15,7 @@ int main(void) {
   char temp;
   int count = 0;
 
-  char str[15]='\0';
+  char str[15]="\0";
 
   printf("Enter a word ");
   while(temp!='\n'){
@@ -34,14 +31,47 @@ int main(void) {
 
   printf("word is %s\n", str);*/
 
-  int maxlength = 10;
+  int maxlength = 11;
   char temp;
   int count = 0;
-
+  int wordnum = 1;
   char str[15]="\0";
-  printf("Enter a word ");
-  fgets(str, 11, stdin);
+  printf("Enter word 1: ");
+  fgets(str, maxlength, stdin);
   str[strcspn(str, "\n")] = '\0';
+  //scanf("%11s", str);
+
+  while (strcmp(str, "XXX") != 0) {
+    if(!stringisalpha(str)) {
+      if(strlen(str) == 10) {
+        temp = '\0';
+        while(temp!='\n') {
+          scanf("%c", &temp);
+        }
+      }
+      printf("\tNot valid. Try again: ");
+
+      fgets(str, maxlength, stdin);
+      str[strcspn(str, "\n")] = '\0';
+      //scanf("%11s", str);
+
+    }
+    else{
+      printf("\t Word Entered:%s\n", str);
+      if(strlen(str) == 10) {
+        temp = '\0';
+        while(temp!='\n') {
+          scanf("%c", &temp);
+        }
+      }
+      wordnum++;
+      printf("Enter word %d (or XXX to quit)", wordnum);
+      //fgets(word, maxlength, stdin);
+      fgets(str, maxlength, stdin);
+      str[strcspn(str, "\n")] = '\0';
+      //scanf("%11s", str);
+    }
+    }
 
   /*while(temp!='\n'){
     scanf("%c", &temp);
@@ -54,8 +84,8 @@ int main(void) {
     count++;
   }*/
 
-  printf("word is %s\n", str);
-  printf("%d\n", stringisalpha(str) );
+  //printf("word is %s\n", str);
+  //printf("%d\n", stringisalpha(str) );
 
 return 0;
 

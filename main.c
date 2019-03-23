@@ -2,17 +2,42 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <ctype.h>
 
 #include "trie.h"
 #include "bogglegraph.h"
 
-//Allows user to choose the size of board they want to play on. Not borrowed.
+void readextra(){
+  char temp = '\0';
+  while(temp!='\n') {
+    scanf("%c", &temp);
+  }
+return;
+}
+
+int stringisalpha(char*str) {
+  //if(strlen(str) == 0) return 0;
+  for (int i = 0; i < strlen(str); i++) {
+    if (!islower(*(str+i))) return 0;
+  }
+  return 1;
+}
+
+//Allows user to choose the size of board they want to play on.
 int chooseBoardSize() {
-  int choice;
+  int choice = 0;
   printf("What n x n size of board would you like to play on?");
-  scanf("%d", &choice);
+  if (scanf("%d", &choice) != 1) {
+    printf("Expected Integer. Program Exiting.");
+    exit(1);
+  }
+  else if(choice <1) {
+    printf("A board cannot have size less than 1. Try again.\n");
+    choice = chooseBoardSize();
+  }
   printf("\n");
   return choice;
+
 }
 
 //Prints the current score of player one versus. Not borrowed.
@@ -43,7 +68,11 @@ int chooseMode() {
   printf("\t (3) Exit\n");
   printf("\n");
   printf("Enter Number corresonding to choice: ");
-  scanf("%d", &choice);
+
+  if (scanf("%d", &choice) != 1) {
+    printf("Error: Expected Integer. Program Exiting.\n");
+    exit(1);
+  }
   printf("\n");
   if (choice != 1 && choice != 2 && choice != 3) {
     printf("Please enter a valid choice number: 1 2 or 3.");
@@ -75,18 +104,33 @@ struct TrieNode* getuserwords() {
   struct TrieNode* userWords = createnewtrienode();
 
   int wordnum = 1;
-  char word[50];
+  char str[15] = "\0";
+  int maxlength = 10;
+  char temp;
 
-  printf("Enter word %d (or XXX to quit)", wordnum);
-  scanf("%s", word);
+  readextra();
+  printf("Enter word %d (or XXX to quit): ", wordnum);
+  fgets(str, maxlength, stdin);
+  str[strcspn(str, "\n")] = '\0';
 
-  while (strcmp(word, "XXX") != 0) {
-    inserttrienode(word, userWords);
-    wordnum++;
-    printf("Enter word %d (or XXX to quit)", wordnum);
-    scanf("%s", word);
+  while (strcmp(str, "XXX") != 0) {
+    if(!stringisalpha(str)) {
+      if(strlen(str) == maxlength -1) {
+        readextra();
+      }
+      printf("\tNot valid input. Try again: ");
+      fgets(str, maxlength, stdin);
+      str[strcspn(str, "\n")] = '\0';
+    }
+    else{
+      inserttrienode(str, userWords);
+      if(strlen(str) == maxlength-1) readextra();
+      wordnum++;
+      printf("Enter word %d (or XXX to quit): ", wordnum);
+      fgets(str, maxlength, stdin);
+      str[strcspn(str, "\n")] = '\0';
+    }
   }
-
   return userWords;
 
 }
@@ -116,7 +160,10 @@ int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, str
 int playagain() {
   printf("Would you like to play again? (1) YES or (2) NO?\n");
   int choice = 0;
-  scanf("%d", &choice);
+  if (scanf("%d", &choice) != 1) {
+    printf("Error: Must enter a valid integer. Try running the program again.\n");
+    exit(1);
+  }
   if (choice != 1 && choice != 2) {
     printf("Please enter a valid number - 1 or 2- representing your choice.");
     choice = playagain();
@@ -135,6 +182,7 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
 
   //Get size of board. This can change before every game.
   int size = chooseBoardSize();
+
 
   //MAKE BOGGLE BOARD TABLE
   char **boggleBoardTable = createBoggleBoardTable(size, size);

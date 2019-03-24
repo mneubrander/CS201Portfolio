@@ -120,12 +120,19 @@ struct TrieNode* getuserwords() {
   int maxlength = 10;
   char temp;
 
+    time_t start = time(NULL);
+
   //readextra();
   printf("Enter word %d (or XXX to quit): ", wordnum);
   fgets(str, maxlength, stdin);
   str[strcspn(str, "\n")] = '\0';
 
   while (strcmp(str, "XXX") != 0) {
+    time_t now =time(NULL);
+    if (now-start > 15) {
+      printf("\tThis word was enterred after 15 SECONDS.\n Time is up!\n");
+      break;
+    }
     if(!stringisalpha(str)) {
       if(strlen(str) == maxlength -1) {
         readextra();
@@ -499,6 +506,8 @@ int main(void){
     inserttrienode(word, dictionary);
     fscanf(fp, "%s", word);
   }
+
+  fclose(fp);
 
   //DISPLAY MAIN SCREEN
   int choice = chooseMode();

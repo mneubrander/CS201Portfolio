@@ -15,10 +15,25 @@ char** createBoggleBoardTable(int rows, int cols) {
       boggleBoardTable[i] = malloc(cols * sizeof(char));
   }
 
+  int qFlag = 0;
+
   for (int i = 0; i <rows;  i++) {
     for (int j = 0; j <cols; j++) {
       boggleBoardTable[i][j] = ("%c ", 'a' + (rand() % 26));
+      if(boggleBoardTable[i][j] == 'q') {
+        if (j>0) {
+          boggleBoardTable[i][j-1] = 'u';
+        }
+        else if (i>0) {
+          boggleBoardTable[i-1][j] = 'u';
+        }
+        else qFlag = 1;
+      }
     }
+  }
+
+  if (qFlag == 1 && cols > 0) {
+    boggleBoardTable[0][1] = 'u';
   }
   return boggleBoardTable;
 }

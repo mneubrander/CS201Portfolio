@@ -475,6 +475,7 @@ void handleChoice(int choice, struct TrieNode* dictionary) {
     oneplayer(0,dictionary);
   }
   else {
+    freetrie(dictionary);
     return;
   }
 }

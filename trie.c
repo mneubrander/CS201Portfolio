@@ -71,3 +71,12 @@ void printtrie(struct TrieNode* trie, char *word, int level) {
         }
     }
 }
+
+void freetrie(struct TrieNode* trie) {
+    for (int i = 0; i < 26; i++){
+        if (trie->nextLetters[i]){
+            freetrie(trie->nextLetters[i]);
+        }
+    }
+    free(trie);
+}

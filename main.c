@@ -50,10 +50,21 @@ void printStatus(int mode, char* namePlayerOne, int scorePlayerOne,
   else if (mode == 2) {
     strcpy(modeString, "Player1 vs. Player2");
   }
+  else if (mode == 3) {
+    strcpy(modeString, "One Player");
+  }
   printf("\n");
+
+  if(mode == 1 || mode == 2) {
   printf("You are playing in %s mode. The score is: \n \n \
             %s: %d \n \
             %s: %d \n \n", modeString, namePlayerOne, scorePlayerOne, namePlayerTwo,scorePlayerTwo);
+  }
+  else{
+    printf("You are playing in %s mode. The high score is: \n \n \
+              %s: %d \n \n", modeString, namePlayerOne, scorePlayerOne);
+  }
+
   return;
 }
 
@@ -65,7 +76,8 @@ int chooseMode() {
   printf("Hello! You are on Boggle Game's Home page. What would you like to do?\n");
   printf("\t (1) Player vs. Computer\n");
   printf("\t (2) Player vs. Player\n");
-  printf("\t (3) Exit\n");
+  printf("\t (3) One Player\n");
+  printf("\t (4) Exit\n");
   printf("\n");
   printf("Enter Number corresonding to choice: ");
 
@@ -74,8 +86,8 @@ int chooseMode() {
     exit(1);
   }
   printf("\n");
-  if (choice != 1 && choice != 2 && choice != 3) {
-    printf("Please enter a valid choice number: 1 2 or 3.");
+  if (choice != 1 && choice != 2 && choice != 3 && choice != 4) {
+    printf("Please enter a valid choice number: 1 2 3 or 4.");
     choice = chooseMode();
   }
   return choice;
@@ -108,7 +120,7 @@ struct TrieNode* getuserwords() {
   int maxlength = 10;
   char temp;
 
-  readextra();
+  //readextra();
   printf("Enter word %d (or XXX to quit): ", wordnum);
   fgets(str, maxlength, stdin);
   str[strcspn(str, "\n")] = '\0';
@@ -193,6 +205,7 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   struct Graph* boggleBoardGraph = createBoggleBoardGraph(boggleBoardTable, size, size);
 
   //Have computer find all possible words.
+
   int* visited = malloc(size*size * sizeof(int));
   for (int i = 0; i <size*size;  i++){
       visited[i] = 0;
@@ -202,6 +215,7 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   int startIndex = 0;
   int count = 0;
 
+
   struct TrieNode* wordList = createnewtrienode();
   for (int i = 0; i <size*size; i++) {
     startIndex = i;
@@ -209,6 +223,7 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   }
 
   //GET USER'S WORDS
+  readextra();
   struct TrieNode* userWords =  getuserwords();
 
   //Score and print the number of points the player and computer each earned.
@@ -223,6 +238,24 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   int computerGameScore = 0;
   computerGameScore = scoreFoundWords(wordList,  str2, level, computerGameScore, wordList);
   printf("\nCOMPUTER'S POINTS: %d\n\n", computerGameScore);
+
+  //FREE ALL VARIABLES WOW
+
+  for (int i = 0; i < size; i++) {
+    free(boggleBoardTable[i]);
+  }
+  free(boggleBoardTable);
+
+  free(list);
+
+  for (int i = 0; i < size*size; i++) {
+    free(boggleBoardGraph->adjLists[i]);
+  }
+  free(boggleBoardGraph);
+  free(visited);
+
+  freetrie(wordList);
+  freetrie(userWords);
 
   //Determine and increment score of winner.
   if (playerGameScore > computerGameScore) {
@@ -283,9 +316,12 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
   }
 
   //GET USER'S WORDS
-
+  readextra();
   printf("PLAYER 1 - Please enter your words now.\n");
   struct TrieNode* userWordsOne =  getuserwords();
+
+  printf("PLAYER 2 - Please enter your words now.\n");
+  struct TrieNode* userWordsTwo =  getuserwords();
 
   char str2[50];
   int level = 0;
@@ -295,8 +331,7 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
 
   printf("\n\n");
 
-  printf("PLAYER 2 - Please enter your words now.\n");
-  struct TrieNode* userWordsTwo =  getuserwords();
+
 
   char str3[50];
   level = 0;
@@ -306,6 +341,21 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
 
   printf("\n\n\n");
 
+  for (int i = 0; i < size; i++) {
+    free(boggleBoardTable[i]);
+  }
+  free(boggleBoardTable);
+
+  free(list);
+
+  for (int i = 0; i < size*size; i++) {
+    free(boggleBoardGraph->adjLists[i]);
+  }
+  free(boggleBoardGraph);
+  free(visited);
+
+  freetrie(userWordsOne);
+  freetrie(userWordsTwo);
 
   if (playerOneGameScore > playerTwoGameScore) {
       player1Score++;
@@ -334,6 +384,83 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
   return;
 }
 
+void oneplayer(int playerHighScore, struct TrieNode* dictionary) {
+  //MODE = 1 means playing against computer
+  printStatus(3, "Player One", playerHighScore, "NA", 0);
+  int size = chooseBoardSize();
+
+  //MAKE BOGGLE BOARD TABLE
+  char **boggleBoardTable = createBoggleBoardTable(size, size);
+  printBoggleBoard(boggleBoardTable, size, size);
+
+  //MAKE BOGGLE BOARD INTO GRAPH
+  char* list = createBoggleBoardNodeList(boggleBoardTable, size, size);
+  struct Graph* boggleBoardGraph = createBoggleBoardGraph(boggleBoardTable, size, size);
+
+  //FIND ALL WORDS
+  int* visited = malloc(size*size * sizeof(int));
+  for (int i = 0; i <size*size;  i++){
+      visited[i] = 0;
+    }
+  char str[50];
+  strcpy(str, "\0");
+  int startIndex = 0;
+  int count = 0;
+
+  struct TrieNode* wordList = createnewtrienode();
+  for (int i = 0; i <size*size; i++) {
+    startIndex = i;
+    wordList= findWordsTrie(boggleBoardGraph, list, visited, startIndex, count, str, wordList, dictionary);
+  }
+
+  //GET USER'S WORDS
+  readextra();
+  printf("Please enter your words now.\n");
+  struct TrieNode* userWordsOne =  getuserwords();
+
+  char str2[50];
+  int level = 0;
+  int playerOneGameScore = 0;
+  playerOneGameScore = scoreFoundWords(userWordsOne,  str2, level, playerOneGameScore, wordList);
+  printf("PLAYER'S SCORE IS %d\n", playerOneGameScore);
+
+  printf("\n\n");
+
+
+  for (int i = 0; i < size; i++) {
+    free(boggleBoardTable[i]);
+  }
+  free(boggleBoardTable);
+
+  free(list);
+
+  for (int i = 0; i < size*size; i++) {
+    free(boggleBoardGraph->adjLists[i]);
+  }
+  free(boggleBoardGraph);
+  free(visited);
+
+  freetrie(userWordsOne);
+
+  if (playerOneGameScore > playerHighScore) {
+      playerHighScore = playerOneGameScore;
+      printf("You beat your high score! High score is now: \n \t %d \n\n", playerHighScore);
+    }
+  else {
+        printf("High score is still: \n \t %d\n\n", playerHighScore);
+      }
+  int playAgain = playagain();
+
+  if (playAgain == 1) {
+    oneplayer(playerHighScore, dictionary);
+  }
+  else {
+    int newGame = chooseMode();
+    handleChoice(newGame, dictionary);
+  }
+
+  return;
+}
 
 
 void handleChoice(int choice, struct TrieNode* dictionary) {
@@ -343,6 +470,9 @@ void handleChoice(int choice, struct TrieNode* dictionary) {
   else if (choice == 2) {
     playervsplayer(0,0,dictionary);
     return;
+  }
+  else if (choice == 3) {
+    oneplayer(0,dictionary);
   }
   else {
     return;

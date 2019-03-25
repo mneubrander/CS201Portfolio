@@ -7,6 +7,8 @@
 #include "trie.h"
 #include "bogglegraph.h"
 
+#define MAXIMUMLENGTH 15
+
 void readextra(){
   char temp = '\0';
   while(temp!='\n') {
@@ -120,7 +122,6 @@ struct TrieNode* getuserwords() {
   char str[15] = "\0";
   int maxlength = 10;
   char temp;
-
   time_t start = time(NULL);
 
   //readextra();
@@ -130,8 +131,8 @@ struct TrieNode* getuserwords() {
 
   while (strcmp(str, "XXX") != 0) {
     time_t now =time(NULL);
-    if (now-start > 15) {
-      printf("\n\tThis word was enterred after 15 Seconds. Time is up!\n \tRegardless of validity, it will not be included in your list.\n\n");
+    if (now-start > 180) {
+      printf("\n\tLast input was enterred after 3 Minutes. Time is up!\n \tRegardless of validity, it will not be counted.\n\n", str);
       if(strlen(str) == maxlength-1) readextra();
       break;
     }
@@ -306,7 +307,7 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
 void playervsplayer(int player1Score, int player2Score, struct TrieNode* dictionary) {
   char seperator[100] = "--------------------------------------------------------------------";
   printf("%s\n", seperator );
-  //MODE = 1 means playing against computer
+  //MODE = 2 means player vs. player
   printStatus(2, "Player One", player1Score, "Player Two", player2Score);
   int size = chooseBoardSize();
 

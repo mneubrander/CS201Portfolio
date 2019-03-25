@@ -78,9 +78,10 @@ int chooseMode() {
   printf("%s\n", seperator);
   printf("Hello! You are on Boggle Game's Home page. What would you like to do?\n");
   printf("\t (1) Player vs. Computer\n");
-  printf("\t (2) Player vs. Player\n");
-  printf("\t (3) One Player\n");
-  printf("\t (4) Exit\n");
+  printf("\t (2) Player vs. Computer - Reduced Difficulty\n");
+  printf("\t (3) Player vs. Player\n");
+  printf("\t (4) One Player\n");
+  printf("\t (5) Exit\n");
   printf("\n");
   printf("Enter Number corresonding to choice: ");
 
@@ -89,8 +90,8 @@ int chooseMode() {
     exit(1);
   }
   printf("\n");
-  if (choice != 1 && choice != 2 && choice != 3 && choice != 4) {
-    printf("Please enter a valid choice number: 1 2 3 or 4.");
+  if (choice != 1 && choice != 2 && choice != 3 && choice != 4 && choice != 5) {
+    printf("Please enter a valid choice number: 1 2 3 4 or 5.");
     choice = chooseMode();
   }
   return choice;
@@ -162,7 +163,9 @@ int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, str
   if ((trie->isWordEnd)== 1)
     {
         word[level] = '\0';
-        printf("[%s - %d]   ", word, scoreword(word, dictionary));
+        if(strlen(word) > 2) {
+          printf("[%s - %d]   ", word, scoreword(word, dictionary));
+        }
         score = score + scoreword(word, dictionary);
     }
 
@@ -173,6 +176,33 @@ int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, str
         {
             word[level] = i + 'a';
             score = scoreFoundWords(trie->nextLetters[i], word, level + 1, score, dictionary);
+        }
+    }
+    return score;
+}
+
+//Scores all of the words found by a user/computer.
+int scoreFoundWordsEasy(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int justPrinted) {
+  if ((trie->isWordEnd)== 1)
+    {
+        word[level] = '\0';
+        if(justPrinted == 0) {
+          if(strlen(word) > 2) {
+            printf("[%s - %d]   ", word, scoreword(word, dictionary));
+          }
+          score = score + scoreword(word, dictionary);
+          justPrinted = 1;
+        }
+        else justPrinted = 0;
+    }
+
+
+    for (int i = 0; i < 26; i++)
+    {
+        if (trie->nextLetters[i])
+        {
+            word[level] = i + 'a';
+            score = scoreFoundWordsEasy(trie->nextLetters[i], word, level + 1, score, dictionary, justPrinted);
         }
     }
     return score;
@@ -198,7 +228,7 @@ int playagain() {
 void handleChoice(int choice, struct TrieNode* dictionary);
 
 //Function to handle player playing against a computer.
-void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* dictionary) {
+void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* dictionary, int difficultyLevel) {
   char seperator[100] = "--------------------------------------------------------------------";
   printf("%s\n",seperator);
   //MODE = 1 means playing against computer
@@ -253,7 +283,12 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   level = 0;
   int computerGameScore = 0;
   printf("\n%s\n\n", computerScoreSeperator);
-  computerGameScore = scoreFoundWords(wordList,  str2, level, computerGameScore, wordList);
+  if(difficultyLevel == 2){
+    computerGameScore = scoreFoundWords(wordList,  str2, level, computerGameScore, wordList);
+  }
+  else if (difficultyLevel == 1) {
+    computerGameScore = scoreFoundWordsEasy(wordList,  str2, level, computerGameScore, wordList, 0);
+  }
   printf("\n\nCOMPUTER TOTAL: %d\n\n", computerGameScore);
 
   //FREE ALL VARIABLES WOW
@@ -293,7 +328,7 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   int playAgain = playagain();
 
   if (playAgain == 1) {
-    playagainstcomputer(playerScore, computerScore, dictionary);
+    playagainstcomputer(playerScore, computerScore, dictionary, difficultyLevel);
   }
   else {
     int newGame = chooseMode();
@@ -580,14 +615,19 @@ void oneplayersaveprogress (char* playerName, int playerHighScore, struct TrieNo
 
 
 void handleChoice(int choice, struct TrieNode* dictionary) {
-  if (choice == 1) {
-    playagainstcomputer(0,0, dictionary);
+  if (choice == 1) {//1 INDICATES PLAYING AGAINST COMPUTER - Normal Difficulty
+    playagainstcomputer(0,0, dictionary,2);//playagainstcomputer takes arguments (playerScore, computerScore, dictionary, difficultyLevel)
+                                            //difficultyLevel = 2 indicates normal difficulty
   }
-  else if (choice == 2) {
+  else if (choice == 2) { //2 INDICATES PLAYING AGAINST COMPUTER - Reduced Difficulty
+    playagainstcomputer(0,0, dictionary,1); //playagainstcomputer takes arguments (playerScore, computerScore, dictionary, difficultyLevel)
+                                            //difficultyLevel = 1 indicates reduced difficulty
+  }
+  else if (choice == 3) {
     playervsplayer(0,0,dictionary);
     return;
   }
-  else if (choice == 3) {
+  else if (choice == 4) {
     oneplayer(0,dictionary);
   }
   else {
@@ -621,13 +661,6 @@ int main(void){
   //DISPLAY MAIN SCREEN
   int choice = chooseMode();
   handleChoice(choice, dictionary);
-
-  //playagainstcomputer(0,0, dictionary);
-
-  //char str2[30];
-  //int level = 0;
-  //printtrie(wordList, str2, level);
-
 
   return 0;
 }

@@ -40,15 +40,16 @@ char** createBoggleBoardTable(int rows, int cols) {
 
 //Prints the boggele board (still in table format)
 void printBoggleBoard(char** boggleBoardTable, int rows, int cols) {
-  printf("YOUR BOARD IS:\n" );
-  printf("\n\n\n");
+    //char seperator[100] = "--------------------------------------------------------------------";
+  char seperator[100] = "-----------------------Time Starts Now!------------------------------";
+  printf("\n%s \n\n", seperator);
   for (int i = 0; i <rows;  i++) {
     for (int j = 0; j <cols; j++) {
       printf("%c ", boggleBoardTable[i][j]);
     }
     printf("\n");
   }
-  printf("\n\n\n");
+  printf("\n");
   return;
 }
 

@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#define MAXIMUMLENGTH 15
+
 int stringisalpha(char*str) {
   for (int i = 0; i < strlen(str); i++) {
     if (!isalpha(*(str+i))) return 0;
@@ -11,31 +13,12 @@ int stringisalpha(char*str) {
 }
 
 int main(void) {
-  /*int maxlength = 10;
-  char temp;
-  int count = 0;
-
-  char str[15]="\0";
-
-  printf("Enter a word ");
-  while(temp!='\n'){
-    scanf("%c", &temp);
-    if (isalpha(temp) && islower(temp) && count <maxlength){
-      char t[2];
-      t[0] = temp;
-      t[1] = '\0';
-      strncat(str, t,1);
-    }
-    count++;
-  }
-
-  printf("word is %s\n", str);*/
 
   int maxlength = 11;
   char temp;
   int count = 0;
   int wordnum = 1;
-  char str[15]="\0";
+  char str[MAXIMUMLENGTH]="\0";
   printf("Enter word 1: ");
   fgets(str, maxlength, stdin);
   str[strcspn(str, "\n")] = '\0';

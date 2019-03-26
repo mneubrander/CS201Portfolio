@@ -47,7 +47,7 @@ void printStatus(int mode, char* namePlayerOne, int scorePlayerOne,
                            char* namePlayerTwo, int scorePlayerTwo) {
   char modeString[30];
   if (mode == 1 || mode == 2) {
-    strcpy(modeString, "Player1 vs. Computer");
+    strcpy(modeString, "Player vs. Computer");
   }
   else if (mode == 3) {
     strcpy(modeString, "Player1 vs. Player2");

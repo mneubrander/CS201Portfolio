@@ -321,6 +321,8 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
         printf("Computer won. Score is now: \n \t Player  : %d \n \t Computer: %d\n\n", playerScore, computerScore);
       }
   else {
+    playerScore++;
+    computerScore++;
     printf("There was a tie! Score is now: \n \t Player  : %d \n \t Computer: %d\n\n", playerScore, computerScore);
   }
 

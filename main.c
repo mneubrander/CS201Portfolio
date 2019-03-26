@@ -247,8 +247,8 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   struct Graph* boggleBoardGraph = createBoggleBoardGraph(boggleBoardTable, size, size);
 
 
-  char seperator[100] = "-------------------- Finding All Words ... --------------------------";
-  printf("\n%s\n", seperator);
+  char seperatorFinding[100] = "-------------------- Finding All Words ... --------------------------";
+  printf("\n%s\n", seperatorFinding);
   //Have computer find all possible words.
 
   int* visited = malloc(size*size * sizeof(int));

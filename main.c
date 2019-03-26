@@ -575,6 +575,10 @@ int main(void){
   struct TrieNode* dictionary = createnewtrienode();
   fscanf(fp, "%s", word);
   while (!feof(fp)){
+    if(!stringisalpha(word)) {
+      printf("ERROR: PLEASE MAKE SURE YOUR DICTIONARY FILE CONTAINS ONLY LOWERCASE WORDS\n");
+      return -1;
+    }
     inserttrienode(word, dictionary);
     fscanf(fp, "%s", word);
   }
@@ -583,6 +587,8 @@ int main(void){
 
   //DISPLAY MAIN SCREEN
   int choice = chooseMode();
+
+  //Playe Game Chosen By User
   handleChoice(choice, dictionary);
 
   return 0;

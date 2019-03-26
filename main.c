@@ -30,7 +30,7 @@ int chooseBoardSize() {
   int choice = 0;
   printf("What n x n size of board would you like to play on? (Enter an integer greater than 0.): ");
   if (scanf("%d", &choice) != 1) {
-    printf("Expected Integer. Program Exiting.");
+    printf("Expected Integer. Program Exiting.\n");
     exit(1);
   }
   else if(choice <1) {
@@ -246,6 +246,9 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   char* list = createBoggleBoardNodeList(boggleBoardTable, size, size);
   struct Graph* boggleBoardGraph = createBoggleBoardGraph(boggleBoardTable, size, size);
 
+
+  char seperator[100] = "-------------------- Finding All Words ... --------------------------";
+  printf("\n%s\n", seperator);
   //Have computer find all possible words.
 
   int* visited = malloc(size*size * sizeof(int));

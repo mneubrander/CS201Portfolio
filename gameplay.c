@@ -22,7 +22,8 @@ int stringisalpha(char*str) {
 //Allows user to choose the size of board they want to play on.
 int chooseBoardSize() {
   int choice = 0;
-  printf("What n x n size of board would you like to play on? (Enter an integer greater than 0.): ");
+  printf("What n x n size of board would you like to play on?\n\t(Enter an integer greater than 0.)\n \
+  *\tWARNING: A board size greater than 40 may cause unfortunate screen display.*: ");
   if (scanf("%d", &choice) != 1) {
     printf("Expected Integer. Program Exiting.\n");
     exit(1);

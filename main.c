@@ -23,7 +23,7 @@ int main(void){
   //CREATE DICTIONARY IN TRIE
   char word[100];
   struct TrieNode* dictionary = createnewtrienode();
-  fscanf(fp, "%s", word);
+  fscanf(fp, "%99s", word);
   while (!feof(fp)){
     if(!stringisalpha(word)) {
       printf("ERROR: PLEASE MAKE SURE YOUR DICTIONARY FILE CONTAINS ONLY LOWERCASE WORDS\n");

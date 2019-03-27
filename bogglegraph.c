@@ -15,7 +15,8 @@ char** createBoggleBoardTable(int rows, int cols) {
       boggleBoardTable[i] = malloc(cols * sizeof(char));
   }
 
-  int qFlag = 0;
+  int qFlag = 0; //used to notify if the first letter printed was a q. At the end
+                 //of the proram, the letter to the right will be made a u (done at end to not be overwritten)
 
   for (int i = 0; i <rows;  i++) {
     for (int j = 0; j <cols; j++) {
@@ -40,7 +41,6 @@ char** createBoggleBoardTable(int rows, int cols) {
 
 //Prints the boggele board (still in table format)
 void printBoggleBoard(char** boggleBoardTable, int rows, int cols) {
-    //char seperator[100] = "--------------------------------------------------------------------";
   char seperator[100] = "-----------------------Time Starts Now!------------------------------";
   printf("\n%s \n\n", seperator);
   for (int i = 0; i <rows;  i++) {
@@ -60,8 +60,6 @@ char* createBoggleBoardNodeList(char **boggleBoardTable, int rows, int cols){
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
       boggleBoardNodeList[linearIndex(i,j, cols)] = boggleBoardTable[i][j];
-      //printf("%d\n", linearIndex(i,j, cols));
-      //printf("%c\n", boggleBoardNodeList[linearIndex(i,j, cols)]);
     }
   }
   return boggleBoardNodeList;
@@ -106,21 +104,6 @@ void createEdge(struct Graph* graph, int srcIndex, char srcLetter, int destIndex
 
 }
 
-/*void printGraph(struct Graph* graph) {
-  printf("%d\n", graph->numVertices);
-  int vertex;
-  for (vertex = 0; vertex < graph->numVertices; vertex++) {
-    //printf("Here\n");
-    struct AdjListNode* temp = graph->adjLists[vertex];
-        printf("\n Adjacency list of vertex %d \n ", vertex);
-        while (temp!=NULL)
-        {
-            printf("%d %c     ", temp->index, temp->letter);
-            temp = temp->next;
-        }
-        printf("\n");
-  }
-}*/
 
 //Turns the boggle board array into adjacency lists
 struct Graph* createBoggleBoardGraph(char** boggleBoardTable, int rows, int cols){
@@ -141,13 +124,13 @@ struct Graph* createBoggleBoardGraph(char** boggleBoardTable, int rows, int cols
                                     //  printf("adding edge %c to %c\n",boggleBoardTable[i][j], boggleBoardTable[i][j+1]);
       }
       if (j < cols - 1 && i <rows - 1){
-        //create edge below
+        //create edge bottom right diagonal
         createEdge(boggleBoardGraph, linearIndex(i, j, cols), boggleBoardTable[i][j],
                                      linearIndex(i+1, j+1, cols), boggleBoardTable[i+1][j+1]);
                                     //  printf("adding edge %c to %c\n",boggleBoardTable[i][j], boggleBoardTable[i+1][j+1]);
       }
       if (j > 0 && i <rows - 1){
-        //create edge below
+        //create edge bottom left diagonal
         createEdge(boggleBoardGraph, linearIndex(i, j, cols), boggleBoardTable[i][j],
                                      linearIndex(i+1, j-1, cols), boggleBoardTable[i+1][j-1]);
                                     //  printf("adding edge %c to %c\n",boggleBoardTable[i][j], boggleBoardTable[i+1][j-1]);
@@ -157,45 +140,10 @@ struct Graph* createBoggleBoardGraph(char** boggleBoardTable, int rows, int cols
   return boggleBoardGraph;
 }
 
-/*struct WordListNode* findWords(struct Graph* graph, char* boggleList, int* visited, int startIndex,
-                                          int count, char* str, struct WordListNode* wordList, struct TrieNode* dictionary){
-
-    visited[startIndex] = 1; //1 indicates vertex has been visited
-    char templetter = boggleList[startIndex];
-    char temp[2];
-    temp[0] = templetter;
-    temp[1] = '\0';
-    strcat(str, temp);
-    //printf("%s\n", str);
-
-    if (findWordInTrie(str, dictionary)) {
-      struct WordListNode* wordNode = malloc(sizeof(struct WordListNode));
-      wordNode -> word = malloc(strlen(str) + 1);
-      strcpy(wordNode->word, str);
-      wordNode->next = wordList;
-      wordList = wordNode;
-    }
-
-
-    struct AdjListNode* node;
-    node = graph->adjLists[startIndex];
-    while(node != NULL) {
-      if (visited[node->index] == 0 && findPrefixInTrie(str, dictionary)) {
-        wordList = findWords(graph, boggleList, visited, node->index, count, str, wordList, dictionary);
-      }
-      node = node->next;
-    }
-
-    //once word path is done, resets use so the word can be used on future paths
-    str[strlen(str)-1] = '\0';
-    visited[startIndex] = 0;
-
-    return wordList;
-}*/
 
 //Finds all words in the boggle board adjacency adjLists
 //Compares words to words in a trie - once there are no more words starting with a series of letters, that search path is terminated
-//Akin to a depth first search
+//Done by Depth First Search
 struct TrieNode* findWordsTrie(struct Graph* graph, char* boggleList, int* visited, int startIndex,
                                           int count, char* str, struct TrieNode* wordList, struct TrieNode* dictionary){
 
@@ -204,13 +152,12 @@ struct TrieNode* findWordsTrie(struct Graph* graph, char* boggleList, int* visit
     char temp[2];
     temp[0] = templetter;
     temp[1] = '\0';
-    strcat(str, temp);
+    strncat(str, temp, 1);
     //printf("%s\n", str);
 
     if (findWordInTrie(str, dictionary)) {
        inserttrienode(str, wordList);
     }
-
 
     struct AdjListNode* node;
     node = graph->adjLists[startIndex];

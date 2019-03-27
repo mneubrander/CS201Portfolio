@@ -1,7 +1,16 @@
 #include "trie.h"
 #include "gameplay.h"
 
+#define VSCOMPUTER 1
+#define VSCOMPUTEREASY 2
+#define VSPLAYER 3
+#define ONEPLAYER 4
+#define EXITGAME 5
+
+#define MAXLENGTH 51
+
 struct TrieNode;
+
 
 void readextra(){
   char temp = '\0';
@@ -22,8 +31,9 @@ int stringisalpha(char*str) {
 //Allows user to choose the size of board they want to play on.
 int chooseBoardSize() {
   int choice = 0;
-  printf("What n x n size of board would you like to play on?\n\t(Enter an integer greater than 0.)\n \
-  *\tWARNING: A board size greater than 40 may cause unfortunate screen display.*: ");
+  printf("What n x n size of board would you like to play on?\n\
+  \t*WARNING: Board dimension greater than 40 may cause poor display.*\n\
+  \tEnter an integer greater than 0 : ");
   if (scanf("%d", &choice) != 1) {
     printf("Expected Integer. Program Exiting.\n");
     exit(1);
@@ -40,19 +50,22 @@ int chooseBoardSize() {
 //Prints the current score of player one versus. Not borrowed.
 void printStatus(int mode, char* namePlayerOne, int scorePlayerOne,
                            char* namePlayerTwo, int scorePlayerTwo) {
-  char modeString[30];
-  if (mode == 1 || mode == 2) {
-    strcpy(modeString, "Player vs. Computer");
+  char modeString[31];
+  if (mode == VSCOMPUTER) {
+    strncpy(modeString, "Player vs. Computer", 30);
   }
-  else if (mode == 3) {
-    strcpy(modeString, "Player1 vs. Player2");
+  else if ( mode == VSCOMPUTEREASY){
+    strncpy(modeString, "Player vs. Computer - Reduced Difficulty", 30);
   }
-  else if (mode == 4) {
-    strcpy(modeString, "One Player");
+  else if (mode == VSPLAYER) {
+    strncpy(modeString, "Player1 vs. Player2",30);
+  }
+  else if (mode == ONEPLAYER) {
+    strncpy(modeString, "One Player",30);
   }
   printf("\n");
 
-  if(mode == 1 || mode == 2 || mode == 3) {
+  if(mode == VSCOMPUTER || mode == VSCOMPUTEREASY || mode == VSPLAYER) {
   printf("You are playing in %s mode. The score is: \n \n \
             %s: %d \n \
             %s: %d \n \n", modeString, namePlayerOne, scorePlayerOne, namePlayerTwo,scorePlayerTwo);
@@ -85,7 +98,7 @@ int chooseMode() {
     exit(1);
   }
   printf("\n");
-  if (choice != 1 && choice != 2 && choice != 3 && choice != 4 && choice != 5) {
+  if (choice != VSCOMPUTER && choice != VSCOMPUTEREASY && choice != VSPLAYER && choice != ONEPLAYER && choice != EXITGAME) {
     printf("Please enter a valid choice number: 1 2 3 4 or 5.");
     choice = chooseMode();
   }
@@ -115,37 +128,37 @@ struct TrieNode* getuserwords() {
   struct TrieNode* userWords = createnewtrienode();
 
   int wordnum = 1;
-  char str[15] = "\0";
-  int maxlength = 10;
+  char str[MAXLENGTH+1] = "\0";
+  //int maxlength = 10;
   char temp;
   time_t start = time(NULL);
 
   //readextra();
   printf("Enter word %d (or XXX to quit): ", wordnum);
-  fgets(str, maxlength, stdin);
+  fgets(str, MAXLENGTH, stdin);
   str[strcspn(str, "\n")] = '\0';
 
   while (strcmp(str, "XXX") != 0) {
     time_t now =time(NULL);
     if (now-start > 180) {
       printf("\n\tLast input was enterred after 3 Minutes. Time is up!\n \tRegardless of validity, it will not be counted.\n\n");
-      if(strlen(str) == maxlength-1) readextra();
+      if(strlen(str) == MAXLENGTH-1) readextra();
       break;
     }
     if(!stringisalpha(str)) {
-      if(strlen(str) == maxlength -1) {
+      if(strlen(str) == MAXLENGTH -1) {
         readextra();
       }
       printf("\tNot valid input. Try again: ");
-      fgets(str, maxlength, stdin);
+      fgets(str, MAXLENGTH, stdin);
       str[strcspn(str, "\n")] = '\0';
     }
     else{
       inserttrienode(str, userWords);
-      if(strlen(str) == maxlength-1) readextra();
+      if(strlen(str) == MAXLENGTH-1) readextra();
       wordnum++;
       printf("Enter word %d (or XXX to quit): ", wordnum);
-      fgets(str, maxlength, stdin);
+      fgets(str, MAXLENGTH, stdin);
       str[strcspn(str, "\n")] = '\0';
     }
   }
@@ -158,13 +171,11 @@ int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, str
   if ((trie->isWordEnd)== 1)
     {
         word[level] = '\0';
-        if(strlen(word) > 2) {
           //If word is length two or less, it is not a valid boggle word. It's score will be zero and shouldn't be printed.
           printf("[%s - %d]   ", word, scoreword(word, dictionary));
-        }
+
         score = score + scoreword(word, dictionary);
     }
-
 
     for (int i = 0; i < 26; i++)
     {
@@ -178,16 +189,16 @@ int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, str
 }
 
 //Scores half of the words found.
-//This allows a user to play against the computer with the computer not always winning.
+//This allows a user to play against the computer with a chance of winning
 int scoreFoundWordsEasy(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int justPrinted) {
   if ((trie->isWordEnd)== 1)
     {
         word[level] = '\0';
         if(justPrinted == 0) {
-          if(strlen(word) > 2) {
+          //if(strlen(word) > 2) {
             //If word is length two or less, it is not a valid boggle word. It's score will be zero and shouldn't be printed.
             printf("[%s - %d]   ", word, scoreword(word, dictionary));
-          }
+        //  }
           score = score + scoreword(word, dictionary);
           justPrinted = 1;
         }
@@ -225,13 +236,13 @@ int playagain() {
 //void handleChoice(int choice, struct TrieNode* dictionary);
 
 //Function to handle player playing against a computer.
+//difficultyLevel is the mode the player is playing in - it indicates easy or normal.
+
 void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* dictionary, int difficultyLevel) {
 
   char seperator[100] = "--------------------------------------------------------------------";
   printf("%s\n",seperator);
-
-  //MODE = 1 means playing against computer
-  printStatus(1, "Player  ", playerScore, "Computer", computerScore);
+  printStatus(difficultyLevel, "Player  ", playerScore, "Computer", computerScore);
 
   //Get size of board. This can change before every game. Print and make the board.
   int size = chooseBoardSize();
@@ -246,8 +257,7 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   for (int i = 0; i <size*size;  i++){
       visited[i] = 0;
     }
-  char str[50];
-  strcpy(str, "\0");
+  char str[MAXLENGTH + 1] = "\0";
   int startIndex = 0;
   int count = 0;
   struct TrieNode* wordList = createnewtrienode();
@@ -256,7 +266,7 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
     wordList= findWordsTrie(boggleBoardGraph, list, visited, startIndex, count, str, wordList, dictionary);
   }
 
-  //GET USER'S WORDS
+  //Get user's words
   readextra(); //reads an extra newline/other inupt from previous screen interaction
   struct TrieNode* userWords =  getuserwords();
 
@@ -264,21 +274,21 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   char playerScoreSeperator[100] = "------------------------Player's Points------------------------------";
   char computerScoreSeperator[100] = "-----------------------Computer's Points-----------------------------";
 
-  char str2[50];
+  char str2[MAXLENGTH+1];
   int level = 0;
   int playerGameScore = 0;
   printf("\n%s\n\n", playerScoreSeperator);
   playerGameScore = scoreFoundWords(userWords,  str2, level, playerGameScore, wordList);
   printf("\n\nPLAYER TOTAL:  %d\n\n", playerGameScore);
 
-  char str3[50];
+  char str3[MAXLENGTH+1];
   level = 0;
   int computerGameScore = 0;
   printf("\n%s\n\n", computerScoreSeperator);
-  if(difficultyLevel == 2){
+  if(difficultyLevel == VSCOMPUTER){
     computerGameScore = scoreFoundWords(wordList,  str2, level, computerGameScore, wordList);
   }
-  else if (difficultyLevel == 1) {
+  else if (difficultyLevel == VSCOMPUTEREASY) {
     computerGameScore = scoreFoundWordsEasy(wordList,  str2, level, computerGameScore, wordList, 0);
   }
   printf("\n\nCOMPUTER TOTAL: %d\n\n", computerGameScore);
@@ -333,11 +343,10 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
 void playervsplayer(int player1Score, int player2Score, struct TrieNode* dictionary) {
   char seperator[100] = "--------------------------------------------------------------------";
   printf("%s\n", seperator );
-  //MODE = 3 means player vs. player
-  printStatus(3, "Player One", player1Score, "Player Two", player2Score);
-  int size = chooseBoardSize();
+  printStatus(VSPLAYER, "Player One", player1Score, "Player Two", player2Score);
 
-  //Make and print boggle board.
+  //Get size of board. This can change before every game. Print and make the board.
+  int size = chooseBoardSize();
   char **boggleBoardTable = createBoggleBoardTable(size, size);
   printBoggleBoard(boggleBoardTable, size, size);
   char* list = createBoggleBoardNodeList(boggleBoardTable, size, size);
@@ -348,8 +357,7 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
   for (int i = 0; i <size*size;  i++){
       visited[i] = 0;
     }
-  char str[50];
-  strcpy(str, "\0");
+  char str[MAXLENGTH+1] = "\0";
   int startIndex = 0;
   int count = 0;
 
@@ -358,7 +366,6 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
     startIndex = i;
     wordList= findWordsTrie(boggleBoardGraph, list, visited, startIndex, count, str, wordList, dictionary);
   }
-
 
   //Get players' words.
   readextra();
@@ -379,7 +386,7 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
   //Score and print player's words.
   char playerOneScoreSeperator[100] = "----------------------Player One's Points----------------------------";
   char playerTwoScoreSeperator[100] = "----------------------Player Two's Points----------------------------";
-  char str2[50];
+  char str2[MAXLENGTH+1];
   int level = 0;
   int playerOneGameScore = 0;
   printf("\n%s\n\n", playerOneScoreSeperator );
@@ -388,7 +395,7 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
 
   printf("\n\n");
 
-  char str3[50];
+  char str3[MAXLENGTH+1];
   level = 0;
   int playerTwoGameScore = 0;
   printf("\n%s\n\n", playerTwoScoreSeperator);
@@ -444,11 +451,10 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
 }
 
 void oneplayer(int playerHighScore, struct TrieNode* dictionary) {
-  //MODE = 4 means one player - not playing against computer
-  printStatus(4, "Player One", playerHighScore, "NA", 0);
-  int size = chooseBoardSize();
+  printStatus(ONEPLAYER, "Player One", playerHighScore, "NA", 0);
 
   //Make and print boggle board.
+  int size = chooseBoardSize();
   char **boggleBoardTable = createBoggleBoardTable(size, size);
   printBoggleBoard(boggleBoardTable, size, size);
   char* list = createBoggleBoardNodeList(boggleBoardTable, size, size);
@@ -459,8 +465,7 @@ void oneplayer(int playerHighScore, struct TrieNode* dictionary) {
   for (int i = 0; i <size*size;  i++){
       visited[i] = 0;
     }
-  char str[50];
-  strcpy(str, "\0");
+  char str[MAXLENGTH+1] = "\0";
   int startIndex = 0;
   int count = 0;
 
@@ -474,9 +479,8 @@ void oneplayer(int playerHighScore, struct TrieNode* dictionary) {
   readextra();
   struct TrieNode* userWordsOne =  getuserwords();
 
-
   //Score and print the words the player found.
-  char str2[50];
+  char str2[MAXLENGTH+1];
   int level = 0;
   int playerOneGameScore = 0;
   char playerScoreSeperator[100] = "-----------------------------Points-----------------------------------";
@@ -527,19 +531,19 @@ void oneplayer(int playerHighScore, struct TrieNode* dictionary) {
 
 
 void handleChoice(int choice, struct TrieNode* dictionary) {
-  if (choice == 1) {//1 INDICATES PLAYING AGAINST COMPUTER - Normal Difficulty
-    playagainstcomputer(0,0, dictionary,2);//playagainstcomputer takes arguments (playerScore, computerScore, dictionary, difficultyLevel)
+  if (choice == VSCOMPUTER) {//1 INDICATES PLAYING AGAINST COMPUTER - Normal Difficulty
+    playagainstcomputer(0,0, dictionary, VSCOMPUTER);//playagainstcomputer takes arguments (playerScore, computerScore, dictionary, difficultyLevel)
                                             //difficultyLevel = 2 indicates normal difficulty
   }
-  else if (choice == 2) { //2 INDICATES PLAYING AGAINST COMPUTER - Reduced Difficulty
-    playagainstcomputer(0,0, dictionary,1); //playagainstcomputer takes arguments (playerScore, computerScore, dictionary, difficultyLevel)
+  else if (choice == VSCOMPUTEREASY) { //2 INDICATES PLAYING AGAINST COMPUTER - Reduced Difficulty
+    playagainstcomputer(0,0, dictionary, VSCOMPUTEREASY); //playagainstcomputer takes arguments (playerScore, computerScore, dictionary, difficultyLevel)
                                             //difficultyLevel = 1 indicates reduced difficulty
   }
-  else if (choice == 3) { //3 INDICATES PLAYING PLAYER VS PLAYER
+  else if (choice == VSPLAYER) { //3 INDICATES PLAYING PLAYER VS PLAYER
     playervsplayer(0,0,dictionary);
     return;
   }
-  else if (choice == 4) { //4 INDICATES ONE PLAYER - NOT AGAINST COMPUTER
+  else if (choice == ONEPLAYER) { //4 INDICATES ONE PLAYER - NOT AGAINST COMPUTER
     oneplayer(0,dictionary);
   }
   else {

@@ -7,6 +7,7 @@
 #include <time.h>
 
 #include "trie.h"
+//#include "gameplay.h"
 
 int linearIndex(int currentRow, int currentCol, int totalCol);
 int chooseBoardSize();
@@ -15,6 +16,7 @@ char** createBoggleBoardTable(int rows, int cols);
 void printBoggleBoard(char** boggleBoardTable, int rows, int cols);
 char* createBoggleBoardNodeList(char **boggleBoardTable, int rows, int cols);
 
+struct TrieNode;
 struct AdjListNode
 {
     int index;

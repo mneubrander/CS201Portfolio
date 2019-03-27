@@ -6,6 +6,9 @@
 #include <stdlib.h>
 #include <time.h>
 
+//#include "gameplay.h"
+#include "bogglegraph.h"
+
 struct TrieNode
 {
   struct TrieNode *nextLetters[26];
@@ -18,5 +21,5 @@ int findWordInTrie(char *word, struct TrieNode* trie);
 int findPrefixInTrie(char *prefix, struct TrieNode *trie);
 void printtrie(struct TrieNode* trie, char *word, int level);
 void freetrie(struct TrieNode* trie);
- 
+
 #endif

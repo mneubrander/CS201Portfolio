@@ -1,0 +1,46 @@
+Hello! Welcome to Boggle Game, a mind-boggling game of word fun.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+HOW TO PLAY:
+    The goal of the game is to connect the letters on the board to form words. You may
+    connect letters in any direction (up, down, left, right, diagonal), but you may not
+    use a letter more than once (for instance, if there are two different 'a' tiles on the
+    board, you may use each, but you may not hit a single space twice). You will have three minutes
+    to do this! After three minutes, any word you enter will not be counted.
+
+SCORING:
+    The boggle words are scored according to their word length. Of course, words must be in the
+    dictionary being used to get any points.
+
+          < 2 letters: 0  Points
+          3-4 letters: 1  Point
+          5   letters: 2  Points
+          6   letters: 3  Points
+          7   letters: 5  Points
+          8+  letters: 11 Points
+
+MODES OF GAMEPLAY:
+
+    As you can see, there are several modes of gameplay! They all follow the same general rules, but
+    each has its own characteristics.
+
+    VS COMPUTER:
+      In playing against the computer, you will type in all of the words you have found and receive your score.
+      The computer will then print all the words it found (which will be all of them). Winning will be impossible, but
+      you can try to tie for a real challenge!
+      Once you enter playing against computer mode, you may play several matches in a row, and the computer will keep track
+      of the number of wins for a you and the computer (until you exit this mode). You may change the board size between matches.
+
+    VS COMPUTER, REDUCED DIFFICULTY:
+      Just like vs. computer, but the computer only prints and scores a portion of the words it finds - now, you can win!
+
+    PLAYER VS PLAYER:
+      Each of two players will have a turn to enter their words (on the same board) on a three minute timer.
+      you may play several matches in a row, and the computer will keep track of the number of wins for each player
+      (until you exit this mode). You may change the board size between matches.
+
+    ONE PLAYER:
+      Though initially this may seem like playing against the computer, it is quite different - the
+      only person you can lose to (or beat!) is yourself. Here, the computer keeps track of the high score of
+      your consecutive matches. You may not change board size between matches, as comparing raw scores between different
+      size boards doesn't make sense.
+      

@@ -44,6 +44,7 @@ int findWordInTrie(char *word, struct TrieNode* trie){
 }
 
 //searches for a prefix of a word in a trie
+//Modified using code above (modified borrowed code)
 int findPrefixInTrie(char *prefix, struct TrieNode *trie){
   struct TrieNode *findNode = trie;
   for (int i = 0; i < strlen(prefix); i++) {

@@ -8,7 +8,7 @@
 #define EXITGAME 5
 
 #define MAXLENGTH 51
-
+int wordOnLine = 0;
 struct TrieNode;
 
 
@@ -58,7 +58,7 @@ void printStatus(int mode, char* namePlayerOne, int scorePlayerOne,
     strncpy(modeString, "Player vs. Computer - Reduced Difficulty", 30);
   }
   else if (mode == VSPLAYER) {
-    strncpy(modeString, "Player1 vs. Player2",30);
+    strncpy(modeString, "Player vs. Player",30);
   }
   else if (mode == ONEPLAYER) {
     strncpy(modeString, "One Player",30);
@@ -71,8 +71,7 @@ void printStatus(int mode, char* namePlayerOne, int scorePlayerOne,
             %s: %d \n \n", modeString, namePlayerOne, scorePlayerOne, namePlayerTwo,scorePlayerTwo);
   }
   else{
-    printf("You are playing in %s mode. The high score is: \n \n \
-              %s: %d \n \n", modeString, namePlayerOne, scorePlayerOne);
+    printf("You are playing in %s mode.\n\tHigh score: %d \n \n", modeString, scorePlayerOne);
   }
 
   return;
@@ -167,13 +166,16 @@ struct TrieNode* getuserwords() {
 }
 
 //Scores all of the words found by a user/computer.
-int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary) {
+int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int *wordOnLine) {
   if ((trie->isWordEnd)== 1)
     {
         word[level] = '\0';
-          //If word is length two or less, it is not a valid boggle word. It's score will be zero and shouldn't be printed.
-          printf("[%s - %d]   ", word, scoreword(word, dictionary));
-
+        printf("[%s - %d]  ", word, scoreword(word, dictionary));
+        if (*wordOnLine == 5) {
+          printf("\n");
+          *wordOnLine = 0;
+        }
+        else{(*wordOnLine)++;}
         score = score + scoreword(word, dictionary);
     }
 
@@ -182,7 +184,7 @@ int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, str
         if (trie->nextLetters[i])
         {
             word[level] = i + 'a';
-            score = scoreFoundWords(trie->nextLetters[i], word, level + 1, score, dictionary);
+            score = scoreFoundWords(trie->nextLetters[i], word, level + 1, score, dictionary, wordOnLine);
         }
     }
     return score;
@@ -190,7 +192,7 @@ int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, str
 
 //Scores half of the words found.
 //This allows a user to play against the computer with a chance of winning
-int scoreFoundWordsEasy(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int justPrinted) {
+int scoreFoundWordsEasy(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int justPrinted, int *wordOnLine) {
   if ((trie->isWordEnd)== 1)
     {
         word[level] = '\0';
@@ -198,6 +200,11 @@ int scoreFoundWordsEasy(struct TrieNode* trie, char *word, int level, int score,
           //if(strlen(word) > 2) {
             //If word is length two or less, it is not a valid boggle word. It's score will be zero and shouldn't be printed.
             printf("[%s - %d]   ", word, scoreword(word, dictionary));
+            if (*wordOnLine == 5) {
+              printf("\n");
+              *wordOnLine = 0;
+            }
+            else{(*wordOnLine)++;}
         //  }
           score = score + scoreword(word, dictionary);
           justPrinted = 1;
@@ -210,7 +217,7 @@ int scoreFoundWordsEasy(struct TrieNode* trie, char *word, int level, int score,
         if (trie->nextLetters[i])
         {
             word[level] = i + 'a';
-            score = scoreFoundWordsEasy(trie->nextLetters[i], word, level + 1, score, dictionary, justPrinted);
+            score = scoreFoundWordsEasy(trie->nextLetters[i], word, level + 1, score, dictionary, justPrinted, wordOnLine);
         }
     }
     return score;
@@ -278,18 +285,20 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   int level = 0;
   int playerGameScore = 0;
   printf("\n%s\n\n", playerScoreSeperator);
-  playerGameScore = scoreFoundWords(userWords,  str2, level, playerGameScore, wordList);
+  wordOnLine = 0;
+  playerGameScore = scoreFoundWords(userWords,  str2, level, playerGameScore, wordList, &wordOnLine);
   printf("\n\nPLAYER TOTAL:  %d\n\n", playerGameScore);
 
   char str3[MAXLENGTH+1];
   level = 0;
   int computerGameScore = 0;
   printf("\n%s\n\n", computerScoreSeperator);
+  wordOnLine = 0;
   if(difficultyLevel == VSCOMPUTER){
-    computerGameScore = scoreFoundWords(wordList,  str2, level, computerGameScore, wordList);
+    computerGameScore = scoreFoundWords(wordList,  str2, level, computerGameScore, wordList,&wordOnLine);
   }
   else if (difficultyLevel == VSCOMPUTEREASY) {
-    computerGameScore = scoreFoundWordsEasy(wordList,  str2, level, computerGameScore, wordList, 0);
+    computerGameScore = scoreFoundWordsEasy(wordList,  str2, level, computerGameScore, wordList, 0, &wordOnLine);
   }
   printf("\n\nCOMPUTER TOTAL: %d\n\n", computerGameScore);
 
@@ -390,7 +399,8 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
   int level = 0;
   int playerOneGameScore = 0;
   printf("\n%s\n\n", playerOneScoreSeperator );
-  playerOneGameScore = scoreFoundWords(userWordsOne,  str2, level, playerOneGameScore, wordList);
+  wordOnLine = 0;
+  playerOneGameScore = scoreFoundWords(userWordsOne,  str2, level, playerOneGameScore, wordList,&wordOnLine);
   printf("\n\nPLAYER ONE TOTAL: %d\n", playerOneGameScore);
 
   printf("\n\n");
@@ -399,7 +409,8 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
   level = 0;
   int playerTwoGameScore = 0;
   printf("\n%s\n\n", playerTwoScoreSeperator);
-  playerTwoGameScore = scoreFoundWords(userWordsTwo,  str3, level, playerTwoGameScore, wordList);
+  wordOnLine = 0;
+  playerTwoGameScore = scoreFoundWords(userWordsTwo,  str3, level, playerTwoGameScore, wordList,&wordOnLine);
   printf("\n\nPLAYER TWO TOTAL: %d\n", playerTwoGameScore);
 
   printf("\n\n\n");
@@ -450,11 +461,11 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
   return;
 }
 
-void oneplayer(int playerHighScore, struct TrieNode* dictionary) {
+void oneplayer(int playerHighScore, struct TrieNode* dictionary, int size) {
   printStatus(ONEPLAYER, "Player One", playerHighScore, "NA", 0);
 
   //Make and print boggle board.
-  int size = chooseBoardSize();
+  //int size = chooseBoardSize();
   char **boggleBoardTable = createBoggleBoardTable(size, size);
   printBoggleBoard(boggleBoardTable, size, size);
   char* list = createBoggleBoardNodeList(boggleBoardTable, size, size);
@@ -485,7 +496,8 @@ void oneplayer(int playerHighScore, struct TrieNode* dictionary) {
   int playerOneGameScore = 0;
   char playerScoreSeperator[100] = "-----------------------------Points-----------------------------------";
   printf("\n%s\n", playerScoreSeperator);
-  playerOneGameScore = scoreFoundWords(userWordsOne,  str2, level, playerOneGameScore, wordList);
+  wordOnLine=0;
+  playerOneGameScore = scoreFoundWords(userWordsOne,  str2, level, playerOneGameScore, wordList,&wordOnLine);
   printf("\n\nTotal: %d\n", playerOneGameScore);
 
 
@@ -519,7 +531,7 @@ void oneplayer(int playerHighScore, struct TrieNode* dictionary) {
   int playAgain = playagain();
 
   if (playAgain == 1) {
-    oneplayer(playerHighScore, dictionary);
+    oneplayer(playerHighScore, dictionary, size);
   }
   else {
     int newGame = chooseMode();
@@ -544,7 +556,8 @@ void handleChoice(int choice, struct TrieNode* dictionary) {
     return;
   }
   else if (choice == ONEPLAYER) { //4 INDICATES ONE PLAYER - NOT AGAINST COMPUTER
-    oneplayer(0,dictionary);
+    int size = chooseBoardSize();
+    oneplayer(0,dictionary, size);
   }
   else {
     freetrie(dictionary);

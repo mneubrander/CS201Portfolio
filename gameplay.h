@@ -18,11 +18,11 @@ void printStatus(int mode, char* namePlayerOne, int scorePlayerOne,
 int chooseMode();
 int scoreword(char *word, struct TrieNode* dictionary);
 struct TrieNode* getuserwords();
-int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary) ;
-int scoreFoundWordsEasy(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int justPrinted);
+int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int* wordOnLine) ;
+int scoreFoundWordsEasy(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int justPrinted, int* wordOnLine);
 void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* dictionary, int difficultyLevel);
 void playervsplayer(int player1Score, int player2Score, struct TrieNode* dictionary);
-void oneplayer(int playerHighScore, struct TrieNode* dictionary);
+void oneplayer(int playerHighScore, struct TrieNode* dictionary, int size);
 void handleChoice(int choice, struct TrieNode* dictionary);
 
 #endif

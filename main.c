@@ -30,7 +30,7 @@ int main(void){
       return -1;
     }
     inserttrienode(word, dictionary);
-    fscanf(fp, "%s", word);
+    fscanf(fp, "%99s", word);
   }
 
   fclose(fp);

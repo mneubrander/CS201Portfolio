@@ -15,9 +15,9 @@ int main(void){
   printf("-------------------------------------------------------------------------\n\
 --------------------------WELCOME TO BOGGLE!-----------------------------\n-------------------------------------------------------------------------\n");  //OPEN DICTIONARY FILE
   FILE* fp;
-  fp = fopen("2of12inf.txt", "r");
+  fp = fopen("BoggleDictionary.txt", "r");
   if (fp == NULL) {
-    printf("ERROR: PLEASE CREATE A DICTIONARY FILE NAMED 2of12inf.txt AND STORE THIS FILE IN THE CURRENT FOLDER.\n THEN TRY RUNNING THE PROGRAM AGAIN.");
+    printf("ERROR: PLEASE CREATE A DICTIONARY FILE NAMED BoggleDictionary.txt AND STORE THIS FILE IN THE CURRENT FOLDER.\n THEN TRY RUNNING THE PROGRAM AGAIN.");
     return -1;
   }
 

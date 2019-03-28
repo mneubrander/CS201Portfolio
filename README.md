@@ -2,7 +2,7 @@
 
 video instruction can be found at ..
 
-##Dictionary File
+## Dictionary File
 this is what is expected of dictionary file:
   - all LOWERCASE
   - named BoggleDictionary.txt, in the current folder

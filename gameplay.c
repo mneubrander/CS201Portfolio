@@ -564,8 +564,8 @@ void oneplayersavescore(int playerHighScore, struct TrieNode* dictionary, int si
     if (fscanf(fpHighScore, "%d", &savedHighScore)!=1) {
       savedHighScore = 0;
     }
+    fclose(fpHighScore);
   }
-  fclose(fpHighScore);
 
   playerHighScore = savedHighScore;
 

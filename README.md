@@ -17,7 +17,7 @@ The process for running the script (demonstrated in the video) is as follows:
 
 If you decide to use a different dictionary, make sure it follows all of the required properties.
 
-## Building
+## Building the file
   - option one: gcc...
   - option two: make
 

@@ -1,17 +1,21 @@
 # CS201Portfolio
 
-video instruction can be found at ..
+Video instructions can be found at *insert link here*.
 
 ## Dictionary File
-this is what is expected of dictionary file:
-  - all LOWERCASE
-  - named BoggleDictionary.txt, in the current folder
+The project expects a dictionary file to be located in the folder that you are running the project in.
+The file must be:
+  - named BoggleDictionary.txt
+  - words of completely **lowercase** letters (no special characters, numbers, uppercase, etc.)
+  - one word per line (words and newlines only)
 
 ### Script
-  - chmod 755 PrepareScript.sh
-  - ./PrepareScript.sh
-  - this gets, puts in place, etc.
-  - Will need internet - wget
+Included in the repository is a script - PrepareScript.sh - that will download and prepare a dictionary.
+The process for running the script (demonstrated in the video) is as follows:
+  1. Type '<chmod 755 PrepareScript.sh>' into terminal
+  2. Run '<./PrepareScript.sh>'
+
+If you decide to use a different dictionary, make sure it follows all of the required properties.
 
 ## Building
   - option one: gcc...

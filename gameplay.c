@@ -5,8 +5,9 @@
 #define VSCOMPUTEREASY 2
 #define VSPLAYER 3
 #define ONEPLAYER 4
-#define BOGGLEINSTRUCTIONS 5
-#define EXITGAME 6
+#define ONEPLAYERSAVE 5
+#define BOGGLEINSTRUCTIONS 6
+#define EXITGAME 7
 
 #define MAXLENGTH 51
 int wordOnLine = 0;
@@ -62,6 +63,9 @@ void printStatus(int mode, char* namePlayerOne, int scorePlayerOne,
   else if (mode == ONEPLAYER) {
     strncpy(modeString, "One Player",30);
   }
+  else if (mode == ONEPLAYERSAVE) {
+    strncpy(modeString, "One Player - Saving High Scores",30);
+  }
   printf("\n");
 
   if(mode == VSCOMPUTER || mode == VSCOMPUTEREASY || mode == VSPLAYER) {
@@ -87,8 +91,9 @@ int chooseMode() {
   printf("\t (2) Player vs. Computer - Reduced Difficulty\n");
   printf("\t (3) Player vs. Player\n");
   printf("\t (4) One Player\n");
-  printf("\t (5) Review Boggle Instructions\n");
-  printf("\t (6) Exit\n");
+  printf("\t (5) One Player - Saving High Score\n");
+  printf("\t (6) Review Boggle Instructions\n");
+  printf("\t (7) Exit\n");
   printf("\n");
   printf("Enter Number corresonding to choice: ");
 
@@ -97,8 +102,8 @@ int chooseMode() {
     exit(1);
   }
   printf("\n");
-  if (choice != VSCOMPUTER && choice != VSCOMPUTEREASY && choice != VSPLAYER && choice != ONEPLAYER && choice!= BOGGLEINSTRUCTIONS && choice != EXITGAME) {
-    printf("Please enter a valid choice number: 1 2 3 4 or 5.");
+  if (choice != VSCOMPUTER && choice != VSCOMPUTEREASY && choice != VSPLAYER && choice != ONEPLAYER && choice != ONEPLAYERSAVE && choice!= BOGGLEINSTRUCTIONS && choice != EXITGAME) {
+    printf("Please enter a valid choice number: 1 2 3 4 5 6 or 7.");
     choice = chooseMode();
   }
   return choice;
@@ -545,6 +550,107 @@ void oneplayer(int playerHighScore, struct TrieNode* dictionary, int size) {
   return;
 }
 
+void oneplayersavescore(int playerHighScore, struct TrieNode* dictionary, int size) {
+
+  char boardSizeAsString[snprintf(NULL, 0, "%d", size) + 1];
+  sprintf(boardSizeAsString, "%d", size);
+  strncat(boardSizeAsString, ".txt", 4);
+
+  int savedHighScore = 0;
+
+  FILE* fpHighScore;
+  fpHighScore = fopen(boardSizeAsString, "r");
+  if (fpHighScore != NULL) {
+    if (fscanf(fpHighScore, "%d", &savedHighScore)!=1) {
+      savedHighScore = 0;
+    }
+  }
+  fclose(fpHighScore);
+
+  playerHighScore = savedHighScore;
+
+  printStatus(ONEPLAYERSAVE, "Player One", playerHighScore, "NA", 0);
+
+  //Make and print boggle board.
+  //int size = chooseBoardSize();
+  char **boggleBoardTable = createBoggleBoardTable(size, size);
+  printBoggleBoard(boggleBoardTable, size, size);
+  char* list = createBoggleBoardNodeList(boggleBoardTable, size, size);
+  struct Graph* boggleBoardGraph = createBoggleBoardGraph(boggleBoardTable, size, size);
+
+  //Find all words in board.
+  int* visited = malloc(size*size * sizeof(int));
+  for (int i = 0; i <size*size;  i++){
+      visited[i] = 0;
+    }
+  char str[MAXLENGTH+1] = "\0";
+  int startIndex = 0;
+  int count = 0;
+
+  struct TrieNode* wordList = createnewtrienode();
+  for (int i = 0; i <size*size; i++) {
+    startIndex = i;
+    wordList= findWordsTrie(boggleBoardGraph, list, visited, startIndex, count, str, wordList, dictionary);
+  }
+
+  //Get user words.
+  readextra();
+  struct TrieNode* userWordsOne =  getuserwords();
+
+  //Score and print the words the player found.
+  char str2[MAXLENGTH+1];
+  int level = 0;
+  int playerOneGameScore = 0;
+  char playerScoreSeperator[100] = "--------------------------------Points-------------------------------------";
+  printf("\n%s\n", playerScoreSeperator);
+  wordOnLine=0;
+  playerOneGameScore = scoreFoundWords(userWordsOne,  str2, level, playerOneGameScore, wordList,&wordOnLine);
+  printf("\n\nTotal: %d\n", playerOneGameScore);
+
+
+  //Free dynamically allocated variables - they are no longer needed.
+  for (int i = 0; i < size; i++) {
+    free(boggleBoardTable[i]);
+  }
+  free(boggleBoardTable);
+
+  free(list);
+
+  for (int i = 0; i < size*size; i++) {
+    free(boggleBoardGraph->adjLists[i]);
+  }
+  free(boggleBoardGraph);
+  free(visited);
+
+  freetrie(userWordsOne);
+
+  //Find high score of user. Instead of keeping track of wins, keeps track of high score.
+  char highScoreSeparator[100] = "------------------------------High Score-----------------------------------";
+
+  printf("\n\n%s\n\n", highScoreSeparator);
+  if (playerOneGameScore > playerHighScore) {
+      playerHighScore = playerOneGameScore;
+      fpHighScore = fopen(boardSizeAsString, "w");
+      fprintf(fpHighScore,"%d",playerHighScore);
+      fclose(fpHighScore);
+      printf("You beat your high score!\nHigh score is now: %d \n\n", playerHighScore);
+    }
+  else {
+        printf("High score is still: %d\n\n", playerHighScore);
+      }
+  int playAgain = playagain();
+
+  if (playAgain == 1) {
+    oneplayersavescore(playerHighScore, dictionary, size);
+  }
+  else {
+    int newGame = chooseMode();
+    handleChoice(newGame, dictionary);
+  }
+
+  return;
+}
+
 void displayinstructions(struct TrieNode * dictionary) {
 
   printf("\n\
@@ -628,6 +734,10 @@ void handleChoice(int choice, struct TrieNode* dictionary) {
   else if (choice == ONEPLAYER) {
     int size = chooseBoardSize();
     oneplayer(0,dictionary, size);
+  }
+  else if (choice == ONEPLAYERSAVE) {
+    int size = chooseBoardSize();
+    oneplayersavescore(0,dictionary, size);
   }
   else if (choice == BOGGLEINSTRUCTIONS) {
       displayinstructions(dictionary);

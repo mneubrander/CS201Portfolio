@@ -12,8 +12,8 @@ The file must be:
 ### Script
 Included in the repository is a script - PrepareScript.sh - that will download and prepare a dictionary.
 The process for running the script (demonstrated in the video) is as follows:
-  1. Type `<chmod 755 PrepareScript.sh>` into terminal
-  2. Run `<./PrepareScript.sh>`
+  1. Type `chmod 755 PrepareScript.sh` into terminal
+  2. Run `./PrepareScript.sh`
 
 If you decide to use a different dictionary, make sure it follows all of the required properties.
 

@@ -77,7 +77,7 @@ void printStatus(int mode, char* namePlayerOne, int scorePlayerOne,
 
 
 int chooseMode() {
-  char seperator[100] = "--------------------------------------------------------------------";
+  char seperator[100] = "-------------------------------------------------------------------------";
   int choice;
   printf("\n");
   printf("%s\n", seperator);
@@ -123,7 +123,7 @@ int scoreword(char *word, struct TrieNode* dictionary) {
 //Storing user words in a trie makes sense as duplicates are not allowed and words are all (relatively) short
 struct TrieNode* getuserwords() {
   struct TrieNode* userWords = createnewtrienode();
-  char seperator[100] = "-----------------------Time Starts Now!------------------------------";
+  char seperator[100] = "--------------------------Time Starts Now!--------------------------------";
   printf("\n%s\n\n", seperator);
   int wordnum = 1;
   char str[MAXLENGTH+1] = "\0";
@@ -246,7 +246,7 @@ int playagain() {
 
 void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* dictionary, int difficultyLevel) {
 
-  char seperator[100] = "--------------------------------------------------------------------";
+  char seperator[100] = "-------------------------------------------------------------------------";
   printf("%s\n",seperator);
   printStatus(difficultyLevel, "Player  ", playerScore, "Computer", computerScore);
 
@@ -278,8 +278,8 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   struct TrieNode* userWords =  getuserwords();
 
   //Score and print the number of points the player and computer each earned.
-  char playerScoreSeperator[100] = "------------------------Player's Points------------------------------";
-  char computerScoreSeperator[100] = "-----------------------Computer's Points-----------------------------";
+  char playerScoreSeperator[100] = "---------------------------Player's Points--------------------------------";
+  char computerScoreSeperator[100] = "--------------------------Computer's Points-------------------------------";
 
   char str2[MAXLENGTH+1];
   int level = 0;
@@ -320,7 +320,7 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   freetrie(userWords);
 
   //Determine and print winner. Increment the winner's score.
-  char winnerSeperator[100] = "---------------------------- Winner ---------------------------------";
+  char winnerSeperator[100] = "------------------------------- Winner -----------------------------------";
   printf("\n%s\n", winnerSeperator);
   if (playerGameScore > computerGameScore) {
       playerScore++;
@@ -350,7 +350,7 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
 
 
 void playervsplayer(int player1Score, int player2Score, struct TrieNode* dictionary) {
-  char seperator[100] = "--------------------------------------------------------------------";
+  char seperator[100] = "-------------------------------------------------------------------------";
   printf("%s\n", seperator );
   printStatus(VSPLAYER, "Player One", player1Score, "Player Two", player2Score);
 
@@ -387,14 +387,16 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
   printf("\n\n\n");
   printf("\n\n\n");
   printf("\n\n\n");
+  printf("\n\n\n");
+
 
   printBoggleBoard(boggleBoardTable, size, size);
   printf("Player Two - Please enter your words now.\n");
   struct TrieNode* userWordsTwo =  getuserwords();
 
   //Score and print player's words.
-  char playerOneScoreSeperator[100] = "----------------------Player One's Points----------------------------";
-  char playerTwoScoreSeperator[100] = "----------------------Player Two's Points----------------------------";
+  char playerOneScoreSeperator[100] = "-------------------------Player One's Points------------------------------";
+  char playerTwoScoreSeperator[100] = "-------------------------Player Two's Points------------------------------";
   char str2[MAXLENGTH+1];
   int level = 0;
   int playerOneGameScore = 0;
@@ -433,7 +435,7 @@ void playervsplayer(int player1Score, int player2Score, struct TrieNode* diction
   freetrie(userWordsTwo);
 
   //Determine and print winner.
-  char winnerSeperator[100] = "---------------------------- Winner ---------------------------------";
+  char winnerSeperator[100] = "------------------------------- Winner -----------------------------------";
   printf("\n%s\n", winnerSeperator);
   if (playerOneGameScore > playerTwoGameScore) {
       player1Score++;
@@ -494,7 +496,7 @@ void oneplayer(int playerHighScore, struct TrieNode* dictionary, int size) {
   char str2[MAXLENGTH+1];
   int level = 0;
   int playerOneGameScore = 0;
-  char playerScoreSeperator[100] = "-----------------------------Points-----------------------------------";
+  char playerScoreSeperator[100] = "--------------------------------Points-------------------------------------";
   printf("\n%s\n", playerScoreSeperator);
   wordOnLine=0;
   playerOneGameScore = scoreFoundWords(userWordsOne,  str2, level, playerOneGameScore, wordList,&wordOnLine);
@@ -518,7 +520,7 @@ void oneplayer(int playerHighScore, struct TrieNode* dictionary, int size) {
   freetrie(userWordsOne);
 
   //Find high score of user. Instead of keeping track of wins, keeps track of high score.
-  char highScoreSeparator[100] = "---------------------------High Score---------------------------------";
+  char highScoreSeparator[100] = "------------------------------High Score-----------------------------------";
 
   printf("\n\n%s\n\n", highScoreSeparator);
   if (playerOneGameScore > playerHighScore) {

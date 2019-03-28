@@ -31,9 +31,7 @@ int stringisalpha(char*str) {
 //Allows user to choose the size of board they want to play on.
 int chooseBoardSize() {
   int choice = 0;
-  printf("What n x n size of board would you like to play on?\n\
-  \t*WARNING: Board dimension greater than 40 may cause poor display.*\n\
-  \tEnter an integer greater than 0 : ");
+  printf("What n x n size of board would you like to play on?\n\t*WARNING: Board dimension greater than 40 may cause poor display.*\n\tEnter an integer greater than 0 : ");
   if (scanf("%d", &choice) != 1) {
     printf("Expected Integer. Program Exiting.\n");
     exit(1);

@@ -545,7 +545,7 @@ void oneplayer(int playerHighScore, struct TrieNode* dictionary, int size) {
   return;
 }
 
-void displayinstructions() {
+void displayinstructions(struct TrieNode * dictionary) {
 
   printf("\n\
   Hello! Welcome to Boggle Game, a mind-boggling game of word fun. \n\
@@ -596,8 +596,18 @@ void displayinstructions() {
         Though initially this may seem like playing against the computer, it is quite different\n\
         - the only person you can lose to (or beat!) is yourself. Here, the computer keeps track\n\
         of the high score of your consecutive matches. You may not change board size between matches,\n\
-        as comparing raw scores between different size boards doesn't make sense." );
+        as comparing raw scores between different size boards doesn't make sense. \n" );
 
+    printf("\n\n Press enter to continue: ");
+    char enter;
+    scanf("%c", &enter);
+    scanf("%c", &enter);
+    while (enter != '\n') {
+      scanf("%c", &enter);
+    }
+
+    int choice = chooseMode();
+    handleChoice(choice, dictionary);
   return;
 }
 
@@ -620,7 +630,7 @@ void handleChoice(int choice, struct TrieNode* dictionary) {
     oneplayer(0,dictionary, size);
   }
   else if (choice == BOGGLEINSTRUCTIONS) {
-      displayinstructions();
+      displayinstructions(dictionary);
   }
   else {
     freetrie(dictionary);

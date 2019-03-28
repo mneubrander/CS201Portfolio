@@ -547,53 +547,56 @@ void oneplayer(int playerHighScore, struct TrieNode* dictionary, int size) {
 
 void displayinstructions() {
 
-  printf(
-  "Hello! Welcome to Boggle Game, a mind-boggling game of word fun. \n\
-  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ \n\
-  HOW TO PLAY: \n\
-      The goal of the game is to connect the letters on the board to form words. You may \n\
-      connect letters in any direction (up, down, left, right, diagonal), but you may not \n\
-      use a letter more than once (for instance, if there are two different 'a' tiles on the \n\
-      board, you may use each, but you may not hit a single space twice). You will have three minutes \n\
-      to do this! After three minutes, any word you enter will not be counted. \n\
-\n\
-  SCORING: \n\
-      The boggle words are scored according to their word length. Of course, words must be in the \n\
-      dictionary being used to get any points. \n\
- \n\
-            < 2 letters: 0  Points \n\
+  printf("\n\
+  Hello! Welcome to Boggle Game, a mind-boggling game of word fun. \n\
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\
+  HOW TO PLAY:\n\
+      The goal of the game is to connect the letters on the board to form words.\n\
+      You may connect letters in any direction (up, down, left, right, diagonal),\n\
+      but you may not use a letter more than once (for instance, if there are two\n\
+      different 'a' tiles on the board, you may use each, but you may not hit a\n\
+      single space twice). You will have three minutes to do this! After three minutes,\n\
+      any word you enter will not be counted.\n\
+  \n\
+  SCORING:\n\
+      The boggle words are scored according to their word length. Of course, words\n\
+      must be in the dictionary being used to get any points.\n\
+  \n\
+            < 2 letters: 0  Points\n\
             3-4 letters: 1  Point\n\
             5   letters: 2  Points\n\
             6   letters: 3  Points\n\
             7   letters: 5  Points\n\
             8+  letters: 11 Points\n\
-\n\
+  \n\
   MODES OF GAMEPLAY:\n\
-\n\
-      As you can see, there are several modes of gameplay! They all follow the same general rules, but\n\
-      each has its own characteristics.\n\
-\n\
+  \n\
+      As you can see, there are several modes of gameplay! They all follow the same general\n\
+      rules, but each has its own characteristics.\n\
+  \n\
       VS COMPUTER:\n\
-        In playing against the computer, you will type in all of the words you have found and receive your score.\n\
-        The computer will then print all the words it found (which will be all of them). Winning will be impossible, but\n\
-        you can try to tie for a real challenge!\n\
-        Once you enter playing against computer mode, you may play several matches in a row, and the computer will keep track\n\
-        of the number of wins for a you and the computer (until you exit this mode). You may change the board size between matches.\n\
-\n\
+        In playing against the computer, you will type in all of the words you have found and\n\
+        receive your score. The computer will then print all the words it found (which will be\n\
+        all of them). Winning will be impossible, but you can try to tie for a real challenge!\n\
+        Once you enter playing against computer mode, you may play several matches in a row, and\n\
+        the computer will keep track of the number of wins for a you and the computer (until you\n\
+        exit this mode). You may change the board size between matches.\n\
+  \n\
       VS COMPUTER, REDUCED DIFFICULTY:\n\
-        Just like vs. computer, but the computer only prints and scores a portion of the words it finds - now, you can win!\n\
-\n\
+        Just like vs. computer, but the computer only prints and scores a portion of the words\n\
+        it finds - now, you can win!\n\
+  \n\
       PLAYER VS PLAYER:\n\
-        Each of two players will have a turn to enter their words (on the same board) on a three minute timer.\n\
-        you may play several matches in a row, and the computer will keep track of the number of wins for each player\n\
-        (until you exit this mode). You may change the board size between matches.\n\
-\n\
+        Each of two players will have a turn to enter their words (on the same board) on a three\n\
+        minute timer. you may play several matches in a row, and the computer will keep track of\n\
+        the number of wins for each player (until you exit this mode). You may change the board\n\
+        size between matches.\n\
+  \n\
       ONE PLAYER:\n\
-        Though initially this may seem like playing against the computer, it is quite different - the\n\
-        only person you can lose to (or beat!) is yourself. Here, the computer keeps track of the high score of\n\
-        your consecutive matches. You may not change board size between matches, as comparing raw scores between different\n\
-        size boards doesn't make sense.\n\
-\n" );
+        Though initially this may seem like playing against the computer, it is quite different\n\
+        - the only person you can lose to (or beat!) is yourself. Here, the computer keeps track\n\
+        of the high score of your consecutive matches. You may not change board size between matches,\n\
+        as comparing raw scores between different size boards doesn't make sense." );
 
   return;
 }

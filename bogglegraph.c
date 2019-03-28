@@ -41,7 +41,7 @@ char** createBoggleBoardTable(int rows, int cols) {
 
 //Prints the boggele board (still in table format)
 void printBoggleBoard(char** boggleBoardTable, int rows, int cols) {
-  char seperator[100] = "-----------------------Time Starts Now!------------------------------";
+  char seperator[100] = "----------------------Boggle Board Below!----------------------------";
   printf("\n%s \n\n", seperator);
   for (int i = 0; i <rows;  i++) {
     for (int j = 0; j <cols; j++) {

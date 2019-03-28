@@ -123,7 +123,8 @@ int scoreword(char *word, struct TrieNode* dictionary) {
 //Storing user words in a trie makes sense as duplicates are not allowed and words are all (relatively) short
 struct TrieNode* getuserwords() {
   struct TrieNode* userWords = createnewtrienode();
-
+  char seperator[100] = "-----------------------Time Starts Now!------------------------------";
+  printf("\n%s\n\n", seperator);
   int wordnum = 1;
   char str[MAXLENGTH+1] = "\0";
   //int maxlength = 10;
@@ -266,6 +267,7 @@ void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* di
   int startIndex = 0;
   int count = 0;
   struct TrieNode* wordList = createnewtrienode();
+
   for (int i = 0; i <size*size; i++) {
     startIndex = i;
     wordList= findWordsTrie(boggleBoardGraph, list, visited, startIndex, count, str, wordList, dictionary);

@@ -664,8 +664,9 @@ void DisplayInstructions(struct TrieNode * dictionary) {
       You may connect letters in any direction (up, down, left, right, diagonal),\n\
       but you may not use a letter more than once (for instance, if there are two\n\
       different 'a' tiles on the board, you may use each once, but you may not hit a\n\
-      single space twice). You will have three minutes to do this! After three minutes,\n\
-      you will be timed out any word you entered will not be counted.\n\
+      single tile twice). Additionally, if a word exists in two separate positions, \n\
+      it will only be counted once. You will have three minutes to do this! After\n\
+      three minutes, you will be timed out any word you entered will not be counted.\n\
   \n\
   SCORING:\n\
       The boggle words are scored according to their word length. Of course, words\n\

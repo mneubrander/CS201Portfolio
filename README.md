@@ -20,6 +20,7 @@ If you decide to use a different dictionary, make sure it follows all of the req
 ## Building and Running
 
 To build the program, simply enter `make` on the command line (there is a Makefile). Use `./boggle` to run the program.
+If for some reason this does not work, you may use `gcc main.c bogglegraph.c trie.c gameplay.c` and run `./a.out`
 
 ## Game Play
 

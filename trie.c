@@ -3,7 +3,7 @@
 
 //Allocates space for and returns an empty node
 //https://www.geeksforgeeks.org/trie-insert-and-search/
-struct TrieNode* createnewtrienode() {
+struct TrieNode* CreateNewTrieNode() {
   struct TrieNode* newNode = malloc(sizeof(struct TrieNode));
   newNode->isWordEnd = 0;
   for (int i = 0; i < 26; i++) {
@@ -14,13 +14,13 @@ struct TrieNode* createnewtrienode() {
 
 //A node is not present in the trie already, this inserts the node
 //https://www.geeksforgeeks.org/trie-insert-and-search/
-void inserttrienode(char *word, struct TrieNode* trie) {
+void InsertTrieNode(char *word, struct TrieNode* trie) {
   struct TrieNode *insertNode = trie;
   int wordLength = strlen(word);
   for (int i = 0; i < wordLength; i++) {
     int nextLetterIndex = word[i] - 'a';
     if (!(insertNode->nextLetters[nextLetterIndex])) {
-      insertNode -> nextLetters[nextLetterIndex] = createnewtrienode();
+      insertNode -> nextLetters[nextLetterIndex] = CreateNewTrieNode();
     }
     insertNode = insertNode->nextLetters[nextLetterIndex];
   }
@@ -29,7 +29,7 @@ void inserttrienode(char *word, struct TrieNode* trie) {
 
 //Searches for a word in the trie
 //https://www.geeksforgeeks.org/trie-insert-and-search/
-int findWordInTrie(char *word, struct TrieNode* trie){
+int FindWordInTrie(char *word, struct TrieNode* trie){
   struct TrieNode *findNode = trie;
   for (int i = 0; i < strlen(word); i++) {
     int nextLetterIndex = word[i] - 'a';
@@ -45,7 +45,7 @@ int findWordInTrie(char *word, struct TrieNode* trie){
 
 //searches for a prefix of a word in a trie
 //Modified using code above (modified borrowed code)
-int findPrefixInTrie(char *prefix, struct TrieNode *trie){
+int FindPrefixInTrie(char *prefix, struct TrieNode *trie){
   struct TrieNode *findNode = trie;
   for (int i = 0; i < strlen(prefix); i++) {
     int nextLetterIndex = prefix[i] - 'a';
@@ -60,7 +60,7 @@ int findPrefixInTrie(char *prefix, struct TrieNode *trie){
 
 //prints all words in a trie
 //https://www.geeksforgeeks.org/trie-insert-and-search/
-void printtrie(struct TrieNode* trie, char *word, int level) {
+void PrintTrie(struct TrieNode* trie, char *word, int level) {
   if ((trie->isWordEnd)== 1) {
         word[level] = '\0';
         printf("%s\n", word);
@@ -68,15 +68,15 @@ void printtrie(struct TrieNode* trie, char *word, int level) {
     for (int i = 0; i < 26; i++){
         if (trie->nextLetters[i]){
             word[level] = i + 'a';
-            printtrie(trie->nextLetters[i], word, level + 1);
+            PrintTrie(trie->nextLetters[i], word, level + 1);
         }
     }
 }
 
-void freetrie(struct TrieNode* trie) {
+void FreeTrie(struct TrieNode* trie) {
     for (int i = 0; i < 26; i++){
         if (trie->nextLetters[i]){
-            freetrie(trie->nextLetters[i]);
+            FreeTrie(trie->nextLetters[i]);
         }
     }
     free(trie);

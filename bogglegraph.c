@@ -1,14 +1,14 @@
 #include "bogglegraph.h"
 
 //Calculates the linear index of an element in a table given its row and column.
-int linearIndex(int currentRow, int currentCol, int totalCol) {
+int LinearIndexCalc(int currentRow, int currentCol, int totalCol) {
   //assuming linear index starts at zero
   int linearIndex = currentCol + currentRow * totalCol;
   return linearIndex;
 }
 
 //Creates a boggle board in an array format.
-char** createBoggleBoardTable(int rows, int cols) {
+char** CreateBoggleBoardTable(int rows, int cols) {
   srand(time(NULL));
   char** boggleBoardTable = malloc(rows * sizeof(char *));
   for(int i=0; i < cols; i++) {
@@ -40,7 +40,7 @@ char** createBoggleBoardTable(int rows, int cols) {
 }
 
 //Prints the boggele board (still in table format)
-void printBoggleBoard(char** boggleBoardTable, int rows, int cols) {
+void PrintBoggleBoard(char** boggleBoardTable, int rows, int cols) {
   char seperator[100] = "----------------------Boggle Board Below!----------------------------";
   printf("\n%s \n\n", seperator);
   for (int i = 0; i <rows;  i++) {
@@ -55,11 +55,11 @@ void printBoggleBoard(char** boggleBoardTable, int rows, int cols) {
 
 //Creates a one dimensional array in which the ith position corresponds to the ith character (using linear indexing).
 //Purpose: The adjacency list holds boggle board entries by their integer position. To access the corresponding letter, this list is used.
-char* createBoggleBoardNodeList(char **boggleBoardTable, int rows, int cols){
+char* CreateBoggleBoardNodeList(char **boggleBoardTable, int rows, int cols){
   char* boggleBoardNodeList = malloc(rows * cols * sizeof(char));
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j < cols; j++) {
-      boggleBoardNodeList[linearIndex(i,j, cols)] = boggleBoardTable[i][j];
+      boggleBoardNodeList[LinearIndexCalc(i,j, cols)] = boggleBoardTable[i][j];
     }
   }
   return boggleBoardNodeList;
@@ -67,7 +67,7 @@ char* createBoggleBoardNodeList(char **boggleBoardTable, int rows, int cols){
 
 //Creates an empty graph
 //Code reused from https://www.programiz.com/dsa/graph-adjacency-list
-struct Graph* createGraph(int numberVertices)
+struct Graph* CreateGraph(int numberVertices)
 {
   struct Graph* graph = malloc(sizeof(struct Graph));
   graph -> numVertices = numberVertices;
@@ -79,7 +79,7 @@ struct Graph* createGraph(int numberVertices)
 
 //Creates a node for an adjacency list given the letter and number of the boggle entry
 // Code reused from https://www.programiz.com/dsa/graph-adjacency-list
-struct AdjListNode* createNode(int index, char letter)
+struct AdjListNode* CreateNode(int index, char letter)
 {
    struct AdjListNode* newNode = malloc(sizeof(struct AdjListNode));
    newNode->index = index;
@@ -90,15 +90,15 @@ struct AdjListNode* createNode(int index, char letter)
 
 //Adds an edge between two nodes to an adjacency adjacency list
 // Code reused from https://www.programiz.com/dsa/graph-adjacency-list
-void createEdge(struct Graph* graph, int srcIndex, char srcLetter, int destIndex, char destLetter)
+void CreateEdge(struct Graph* graph, int srcIndex, char srcLetter, int destIndex, char destLetter)
 {
   //From src to dest
-  struct AdjListNode* node = createNode(destIndex, destLetter);
+  struct AdjListNode* node = CreateNode(destIndex, destLetter);
   node->next = graph->adjLists[srcIndex];
   graph->adjLists[srcIndex] = node;
 
   //From dest to src
-  node = createNode(srcIndex, srcLetter);
+  node = CreateNode(srcIndex, srcLetter);
   node ->next = graph->adjLists[destIndex];
   graph->adjLists[destIndex] = node;
 
@@ -106,33 +106,33 @@ void createEdge(struct Graph* graph, int srcIndex, char srcLetter, int destIndex
 
 
 //Turns the boggle board array into adjacency lists
-struct Graph* createBoggleBoardGraph(char** boggleBoardTable, int rows, int cols){
+struct Graph* CreateBoggleBoardGraph(char** boggleBoardTable, int rows, int cols){
   int v = rows*cols;
-  struct Graph *boggleBoardGraph = createGraph(v);
+  struct Graph *boggleBoardGraph = CreateGraph(v);
   for (int i = 0; i < rows; i++) {
     for (int j = 0; j <cols; j++){
       if (i < rows - 1) {
         //create edge to right
-        createEdge(boggleBoardGraph, linearIndex(i, j, cols), boggleBoardTable[i][j],
-                                     linearIndex(i + 1, j, cols), boggleBoardTable[i+1][j]);
+        CreateEdge(boggleBoardGraph, LinearIndexCalc(i, j, cols), boggleBoardTable[i][j],
+                                     LinearIndexCalc(i + 1, j, cols), boggleBoardTable[i+1][j]);
                                     // printf("adding edge %c to %c\n",boggleBoardTable[i][j], boggleBoardTable[i+1][j]);
       }
       if (j < cols - 1){
         //create edge below
-        createEdge(boggleBoardGraph, linearIndex(i, j, cols), boggleBoardTable[i][j],
-                                     linearIndex(i, j+1, cols), boggleBoardTable[i][j+1]);
+        CreateEdge(boggleBoardGraph, LinearIndexCalc(i, j, cols), boggleBoardTable[i][j],
+                                     LinearIndexCalc(i, j+1, cols), boggleBoardTable[i][j+1]);
                                     //  printf("adding edge %c to %c\n",boggleBoardTable[i][j], boggleBoardTable[i][j+1]);
       }
       if (j < cols - 1 && i <rows - 1){
         //create edge bottom right diagonal
-        createEdge(boggleBoardGraph, linearIndex(i, j, cols), boggleBoardTable[i][j],
-                                     linearIndex(i+1, j+1, cols), boggleBoardTable[i+1][j+1]);
+        CreateEdge(boggleBoardGraph, LinearIndexCalc(i, j, cols), boggleBoardTable[i][j],
+                                     LinearIndexCalc(i+1, j+1, cols), boggleBoardTable[i+1][j+1]);
                                     //  printf("adding edge %c to %c\n",boggleBoardTable[i][j], boggleBoardTable[i+1][j+1]);
       }
       if (j > 0 && i <rows - 1){
         //create edge bottom left diagonal
-        createEdge(boggleBoardGraph, linearIndex(i, j, cols), boggleBoardTable[i][j],
-                                     linearIndex(i+1, j-1, cols), boggleBoardTable[i+1][j-1]);
+        CreateEdge(boggleBoardGraph, LinearIndexCalc(i, j, cols), boggleBoardTable[i][j],
+                                     LinearIndexCalc(i+1, j-1, cols), boggleBoardTable[i+1][j-1]);
                                     //  printf("adding edge %c to %c\n",boggleBoardTable[i][j], boggleBoardTable[i+1][j-1]);
       }
     }
@@ -144,7 +144,7 @@ struct Graph* createBoggleBoardGraph(char** boggleBoardTable, int rows, int cols
 //Finds all words in the boggle board adjacency adjLists
 //Compares words to words in a trie - once there are no more words starting with a series of letters, that search path is terminated
 //Done by Depth First Search
-struct TrieNode* findWordsTrie(struct Graph* graph, char* boggleList, int* visited, int startIndex,
+struct TrieNode* FindWordsTrie(struct Graph* graph, char* boggleList, int* visited, int startIndex,
                                           int count, char* str, struct TrieNode* wordList, struct TrieNode* dictionary){
 
     visited[startIndex] = 1;
@@ -155,15 +155,15 @@ struct TrieNode* findWordsTrie(struct Graph* graph, char* boggleList, int* visit
     strncat(str, temp, 1);
     //printf("%s\n", str);
 
-    if (findWordInTrie(str, dictionary)) {
-       inserttrienode(str, wordList);
+    if (FindWordInTrie(str, dictionary)) {
+       InsertTrieNode(str, wordList);
     }
 
     struct AdjListNode* node;
     node = graph->adjLists[startIndex];
     while(node != NULL) {
-      if (visited[node->index] == 0 && findPrefixInTrie(str, dictionary)) {
-        wordList = findWordsTrie(graph, boggleList, visited, node->index, count, str, wordList, dictionary);
+      if (visited[node->index] == 0 && FindPrefixInTrie(str, dictionary)) {
+        wordList = FindWordsTrie(graph, boggleList, visited, node->index, count, str, wordList, dictionary);
       }
       node = node->next;
     }

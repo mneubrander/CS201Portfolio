@@ -15,11 +15,11 @@ struct TrieNode
   int isWordEnd;
 };
 
-struct TrieNode* createnewtrienode();
-void inserttrienode(char *word, struct TrieNode* trie);
-int findWordInTrie(char *word, struct TrieNode* trie);
-int findPrefixInTrie(char *prefix, struct TrieNode *trie);
-void printtrie(struct TrieNode* trie, char *word, int level);
-void freetrie(struct TrieNode* trie);
+struct TrieNode* CreateNewTrieNode();
+void InsertTrieNode(char *word, struct TrieNode* trie);
+int FindWordInTrie(char *word, struct TrieNode* trie);
+int FindPrefixInTrie(char *prefix, struct TrieNode *trie);
+void PrintTrie(struct TrieNode* trie, char *word, int level);
+void FreeTrie(struct TrieNode* trie);
 
 #endif

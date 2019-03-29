@@ -23,24 +23,24 @@ int main(void){
 
   //CREATE DICTIONARY IN TRIE
   char word[100];
-  struct TrieNode* dictionary = createnewtrienode();
+  struct TrieNode* dictionary = CreateNewTrieNode();
   fscanf(fp, "%99s", word);
   while (!feof(fp)){
-    if(!stringisalpha(word)) {
+    if(!StringIsLower(word)) {
       printf("ERROR: PLEASE MAKE SURE YOUR DICTIONARY FILE CONTAINS ONLY LOWERCASE WORDS\n");
       return -1;
     }
-    inserttrienode(word, dictionary);
+    InsertTrieNode(word, dictionary);
     fscanf(fp, "%99s", word);
   }
 
   fclose(fp);
 
   //DISPLAY MAIN SCREEN
-  int choice = chooseMode();
+  int choice = ChooseMode();
 
   //PLAY GAME CHOSEN BY USER.
-  handleChoice(choice, dictionary);
+  HandleChoice(choice, dictionary);
 
   return 0;
 }

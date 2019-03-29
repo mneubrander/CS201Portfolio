@@ -10,19 +10,21 @@
 #include "trie.h"
 #include "bogglegraph.h"
 
-void readextra();
-int stringisalpha(char*str);
-int chooseBoardSize();
-void printStatus(int mode, char* namePlayerOne, int scorePlayerOne,
+void ReadExtra();
+int StringIsLower(char*str);
+int ChooseBoardSize();
+void PrintStatus(int mode, char* namePlayerOne, int scorePlayerOne,
                            char* namePlayerTwo, int scorePlayerTwo);
-int chooseMode();
-int scoreword(char *word, struct TrieNode* dictionary);
-struct TrieNode* getuserwords();
-int scoreFoundWords(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int* wordOnLine) ;
-int scoreFoundWordsEasy(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int justPrinted, int* wordOnLine);
-void playagainstcomputer(int playerScore, int computerScore, struct TrieNode* dictionary, int difficultyLevel);
-void playervsplayer(int player1Score, int player2Score, struct TrieNode* dictionary);
-void oneplayer(int playerHighScore, struct TrieNode* dictionary, int size);
-void handleChoice(int choice, struct TrieNode* dictionary);
+int ChooseMode();
+int ScoreWord(char *word, struct TrieNode* dictionary);
+struct TrieNode* GetUserWords();
+int ScoreFoundWords(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int* wordOnLine) ;
+int ScoreFoundWordsEasy(struct TrieNode* trie, char *word, int level, int score, struct TrieNode* dictionary, int justPrinted, int* wordOnLine);
+void PlayAgainstComputer(int playerScore, int computerScore, struct TrieNode* dictionary, int difficultyLevel);
+void PlayerVsPlayer(int player1Score, int player2Score, struct TrieNode* dictionary);
+void OnePlayer(int playerHighScore, struct TrieNode* dictionary, int size);
+void OnePlayerSaveScore(int playerHighScore, struct TrieNode* dictionary, int size);
+void DisplayInstructions(struct TrieNode * dictionary);
+void HandleChoice(int choice, struct TrieNode* dictionary);
 
 #endif

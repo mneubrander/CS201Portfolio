@@ -660,9 +660,9 @@ void DisplayInstructions(struct TrieNode * dictionary) {
       The goal of the game is to connect the letters on the board to form words.\n\
       You may connect letters in any direction (up, down, left, right, diagonal),\n\
       but you may not use a letter more than once (for instance, if there are two\n\
-      different 'a' tiles on the board, you may use each, but you may not hit a\n\
+      different 'a' tiles on the board, you may use each once, but you may not hit a\n\
       single space twice). You will have three minutes to do this! After three minutes,\n\
-      any word you enter will not be counted.\n\
+      you will be timed out any word you entered will not be counted.\n\
   \n\
   SCORING:\n\
       The boggle words are scored according to their word length. Of course, words\n\
@@ -694,7 +694,7 @@ void DisplayInstructions(struct TrieNode * dictionary) {
   \n\
       PLAYER VS PLAYER:\n\
         Each of two players will have a turn to enter their words (on the same board) on a three\n\
-        minute timer. you may play several matches in a row, and the computer will keep track of\n\
+        minute timer. You may play several matches in a row, and the computer will keep track of\n\
         the number of wins for each player (until you exit this mode). You may change the board\n\
         size between matches.\n\
   \n\
@@ -705,9 +705,9 @@ void DisplayInstructions(struct TrieNode * dictionary) {
         as comparing raw scores between different size boards doesn't make sense. \n\
   \n\
       ONE PLAYER - SAVE PROGRESS:\n\
-        This is just like one player, but saves your high score between sessions. Why would you use one player\n\
-        instead of one player save progress? Perhaps your friend is playing on your computer and you don't want \n\
-        your high score to be their play!\n" );
+        This is just like one player, but saves your high score between sessions. Why would you use one \n\
+        player instead of one player save progress? Perhaps your friend is playing on your computer and \n\
+        you don't want your high score to be their play!\n" );
 
     printf("\n\n Press enter to continue: ");
     char enter;

@@ -21,7 +21,7 @@ If you decide to use a different dictionary, make sure it follows all of the req
 
 To build the program, simply enter `make` on the command line (there is a Makefile). Use `./boggle` to run the program.
 
-## Playing
+## Game Play
 
 There are several options that will appear upon running the program - further details about these are provided below.
 However, one common theme of note to all sections is entering a character when the program expects an integer
@@ -31,16 +31,33 @@ However, one common theme of note to all sections is entering a character when t
 In the instructions tab, an overview of how to play the game (scoring, rules, etc.) is given. Additionally, the functionality
 of each mode of game play is given so that the user does not have to return to the readme.
 
-###Entering Words
-  - max length 50
-  - timer
+### Entering Words
+  - **Max Length**: Words have a maximum length of 50 letters - the longest word in the English language is *pneumonoultramicroscopicsilicovolcanoconiosis*,
+    which is 45 characters, so this should be plenty! However, in case a longer word is entered, only the first 50 characters will be read - the rest will be
+    discarded. Additionally, words must be all lowercase to be counted. In checking for valid input or not, the first (up to) 50 characters will be counted - if
+    any of these are invalid, you will have to try your input again. For this reason, you should type your word and then immediately press enter - do not put a space
+    after your word!
+  - **Timer**: The game is played on a 3 minute timer. The timer begins once you are able to begin entering words. The time elapsed is checked every time you
+    input a word - if more than 3 minutes has elapsed, that word will not be counted and your turn will be up.
 
 ### Player vs. Computer and Player vs. Computer - Reduced Difficulty
-  - save between
-  - can't win
+  - In Player vs. Computer Mode, you play against the computer. You will type in all of the words you have found and receive your score.
+    The computer will then print all the words it found (which will be all of them). *Winning will be impossible*, but you can try to tie for a real challenge!
+  - The score of player vs. computer is tracked between matches. Once the player vs. computer mode is exited, the score will be reset to 0-0!
+  - The board size can be changed between matches.
+  - Player vs. Computer - Reduced Difficulty functions just like player vs. computer, but with the computer only outputting a portion of the words. Of course,
+    the computer actually knows all of them, however, this mode is still quite challenging!
 
 ### Player vs. Player
-  - Each has own timer
+  - In Player vs. Player Mode, two players go head to head entering words found on the same board. Once one player enters all of their words, the time immediately
+    starts for the next player.
+  - The score of player vs. player is tracked between matches. Once the player vs. player mode is exited, the score will be reset to 0-0!
+  - The board can be resized between matches.
 
 ### One Player and One Player - Save Progress
-  - Save between games
+  - In one player mode, you are playing to beat your high score (the score of the game that would normally determine a winner) for a particular sized board.
+  - In one player mode, the size of the board cannot be changed between matches - comparing high score for say, a 2x2 with a 8x8 board does not make sense.
+  - One Player - Save Progress is just like One Player, but it saves the high score for a particular board to a txt file *boardsize*.txt. If no file exists,
+    the current high score for that board size is assumed to be zero. **DO NOT MODIFY** this file!!
+  - Why would you use one player vs. one player - save progress? Perhaps your friend is playing on your computer, and you don't want their high score to over-write
+    yours!

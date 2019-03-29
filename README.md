@@ -1,6 +1,6 @@
 # CS201Portfolio
 
-Video instructions can be found at *insert link here*.
+Video instructions can be found at https://www.youtube.com/channel/UCQsz1IX7ijjDrZxaOMnmLNw .
 
 ## Dictionary File
 The project expects a dictionary file to be located in the folder that you are running the project in.

@@ -92,18 +92,17 @@ struct AdjListNode* CreateNode(int index, char letter)
 // Code reused from https://www.programiz.com/dsa/graph-adjacency-list
 void CreateEdge(struct Graph* graph, int srcIndex, char srcLetter, int destIndex, char destLetter)
 {
-  //From src to dest
+  //From source to destination
   struct AdjListNode* node = CreateNode(destIndex, destLetter);
   node->next = graph->adjLists[srcIndex];
   graph->adjLists[srcIndex] = node;
 
-  //From dest to src
+  //From destination to source
   node = CreateNode(srcIndex, srcLetter);
   node ->next = graph->adjLists[destIndex];
   graph->adjLists[destIndex] = node;
 
 }
-
 
 //Turns the boggle board array into adjacency lists
 struct Graph* CreateBoggleBoardGraph(char** boggleBoardTable, int rows, int cols){
@@ -153,8 +152,9 @@ struct TrieNode* FindWordsTrie(struct Graph* graph, char* boggleList, int* visit
     temp[0] = templetter;
     temp[1] = '\0';
     strncat(str, temp, 1);
-    //printf("%s\n", str);
 
+    //dictionary is trie containing all possible words - the complete dictionary
+    //wordList is trie containing the words found in the particular boggle board
     if (FindWordInTrie(str, dictionary)) {
        InsertTrieNode(str, wordList);
     }
@@ -167,6 +167,7 @@ struct TrieNode* FindWordsTrie(struct Graph* graph, char* boggleList, int* visit
       }
       node = node->next;
     }
+
     //once word path is done, resets use so the word can be used on future paths
     str[strlen(str)-1] = '\0';
     visited[startIndex] = 0;

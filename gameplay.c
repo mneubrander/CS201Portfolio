@@ -395,6 +395,9 @@ void PlayerVsPlayer(int player1Score, int player2Score, struct TrieNode* diction
   printf("\n\n\n");
   printf("\n\n\n");
   printf("\n\n\n");
+  printf("\n\n\n");
+  printf("\n\n\n");
+  printf("\n\n\n");
 
 
   PrintBoggleBoard(boggleBoardTable, size, size);

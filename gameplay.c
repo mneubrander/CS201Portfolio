@@ -668,7 +668,7 @@ void DisplayInstructions(struct TrieNode * dictionary) {
       The boggle words are scored according to their word length. Of course, words\n\
       must be in the dictionary being used to get any points.\n\
   \n\
-            < 2 letters: 0  Points\n\
+            < 3 letters: 0  Points\n\
             3-4 letters: 1  Point\n\
             5   letters: 2  Points\n\
             6   letters: 3  Points\n\

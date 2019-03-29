@@ -702,7 +702,12 @@ void DisplayInstructions(struct TrieNode * dictionary) {
         Though initially this may seem like playing against the computer, it is quite different\n\
         - the only person you can lose to (or beat!) is yourself. Here, the computer keeps track\n\
         of the high score of your consecutive matches. You may not change board size between matches,\n\
-        as comparing raw scores between different size boards doesn't make sense. \n" );
+        as comparing raw scores between different size boards doesn't make sense. \n
+  \n\
+      ONE PLAYER - SAVE PROGRESS:\n\
+        This is just like one player, but saves your high score between sessions. Why would you use one player\n\
+        instead of one player save progress? Perhaps your friend is playing on your computer and you don't want \n\
+        your high score to be their play!\n" );
 
     printf("\n\n Press enter to continue: ");
     char enter;

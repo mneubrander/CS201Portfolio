@@ -19,7 +19,7 @@ struct TrieNode* CreateNewTrieNode();
 void InsertTrieNode(char *word, struct TrieNode* trie);
 int FindWordInTrie(char *word, struct TrieNode* trie);
 int FindPrefixInTrie(char *prefix, struct TrieNode *trie);
-void PrintTrie(struct TrieNode* trie, char *word, int level);
+void PrintTrie(struct TrieNode* trie, char *word, int level, int* WordNumber);
 void FreeTrie(struct TrieNode* trie);
 
 #endif

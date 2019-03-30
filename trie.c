@@ -60,15 +60,20 @@ int FindPrefixInTrie(char *prefix, struct TrieNode *trie){
 
 //prints all words in a trie
 //https://www.geeksforgeeks.org/trie-insert-and-search/
-void PrintTrie(struct TrieNode* trie, char *word, int level) {
+void PrintTrie(struct TrieNode* trie, char *word, int level, int *wordNumber) {
   if ((trie->isWordEnd)== 1) {
         word[level] = '\0';
-        printf("%s\n", word);
+        if (*wordNumber == 8) {
+          printf("\n");
+          *wordNumber = 0;
+        }
+        else{(*wordNumber)++;}
+        printf("%s  ", word);
     }
     for (int i = 0; i < 26; i++){
         if (trie->nextLetters[i]){
             word[level] = i + 'a';
-            PrintTrie(trie->nextLetters[i], word, level + 1);
+            PrintTrie(trie->nextLetters[i], word, level + 1, wordNumber);
         }
     }
 }

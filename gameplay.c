@@ -245,6 +245,22 @@ int PlayAgain() {
   return choice;
 }
 
+
+int ViewFullList() {
+  printf("Would you like to see the full list of words?\n\t(1) Yes \n\t(2) No\n\n");
+  printf("Enter number corresonding to choice: ");
+  int choice = 0;
+  if (scanf("%d", &choice) != 1) {
+    printf("Error: Must enter a valid integer. Try running the program again.\n");
+    exit(1);
+  }
+  if (choice != 1 && choice != 2) {
+    printf("Please enter a valid number - 1 or 2- representing your choice.");
+    choice = ViewFullList();
+  }
+  return choice;
+}
+
 //Function signature - HandleChoice is called by PlayAgainstComputer but defined later (it calls PlayAgainstComputer)
 //void HandleChoice(int choice, struct TrieNode* dictionary);
 
@@ -427,6 +443,30 @@ void PlayerVsPlayer(int player1Score, int player2Score, struct TrieNode* diction
 
   printf("\n\n\n");
 
+  //Determine and print winner.
+  char winnerSeperator[100] = "------------------------------- Winner -----------------------------------";
+  printf("\n%s\n", winnerSeperator);
+  if (playerOneGameScore > playerTwoGameScore) {
+      player1Score++;
+      printf("Player One won. Score is now: \n \t Player One: %d \n \t Player Two: %d\n\n", player1Score, player2Score);
+    }
+  else if (playerOneGameScore < playerTwoGameScore) {
+        player2Score++;
+      printf("Player Two won. Score is now: \n \t Player One: %d \n \t Player Two: %d\n\n", player1Score, player2Score);      }
+  else {
+       player1Score++;
+       player2Score++;
+      printf("There was a tie! Score is now: \n \t Player One: %d \n \t Player Two: %d\n\n", player1Score, player2Score);  }
+
+  char str4[MAXLENGTH+1];
+  level = 0;
+  int wordNumber = 0;
+  int viewList = ViewFullList();
+  if (viewList == 1) {
+    PrintTrie(wordList, str4, level, &wordNumber);
+  }
+  printf("\n\n");
+
   //Free dynamically allocated variables - they are no longer needed
   for (int i = 0; i < size; i++) {
     free(boggleBoardTable[i]);
@@ -443,21 +483,7 @@ void PlayerVsPlayer(int player1Score, int player2Score, struct TrieNode* diction
 
   FreeTrie(userWordsOne);
   FreeTrie(userWordsTwo);
-
-  //Determine and print winner.
-  char winnerSeperator[100] = "------------------------------- Winner -----------------------------------";
-  printf("\n%s\n", winnerSeperator);
-  if (playerOneGameScore > playerTwoGameScore) {
-      player1Score++;
-      printf("Player One won. Score is now: \n \t Player One: %d \n \t Player Two: %d\n\n", player1Score, player2Score);
-    }
-  else if (playerOneGameScore < playerTwoGameScore) {
-        player2Score++;
-      printf("Player Two won. Score is now: \n \t Player One: %d \n \t Player Two: %d\n\n", player1Score, player2Score);      }
-  else {
-       player1Score++;
-       player2Score++;
-      printf("There was a tie! Score is now: \n \t Player One: %d \n \t Player Two: %d\n\n", player1Score, player2Score);  }
+  FreeTrie(wordList);
 
   //Ask players if they would like to play again.
   int playAgain = PlayAgain();
@@ -512,6 +538,26 @@ void OnePlayer(int playerHighScore, struct TrieNode* dictionary, int size) {
   playerOneGameScore = ScoreFoundWords(userWordsOne,  str2, level, playerOneGameScore, wordList,&wordOnLine);
   printf("\n\nTotal: %d\n", playerOneGameScore);
 
+  //Find high score of user. Instead of keeping track of wins, keeps track of high score.
+  char highScoreSeparator[100] = "------------------------------High Score-----------------------------------";
+
+  printf("\n\n%s\n\n", highScoreSeparator);
+  if (playerOneGameScore > playerHighScore) {
+      playerHighScore = playerOneGameScore;
+      printf("You beat your high score!\nHigh score is now: %d \n\n", playerHighScore);
+  }
+  else {
+      printf("High score is still: %d\n\n\n", playerHighScore);
+  }
+
+  char str3[MAXLENGTH+1];
+  level = 0;
+  int wordNumber = 0;
+  int viewList = ViewFullList();
+  if (viewList == 1) {
+    PrintTrie(wordList, str3, level, &wordNumber);
+  }
+  printf("\n\n");
 
   //Free dynamically allocated variables - they are no longer needed.
   for (int i = 0; i < size; i++) {
@@ -528,18 +574,8 @@ void OnePlayer(int playerHighScore, struct TrieNode* dictionary, int size) {
   free(visited);
 
   FreeTrie(userWordsOne);
+  FreeTrie(wordList);
 
-  //Find high score of user. Instead of keeping track of wins, keeps track of high score.
-  char highScoreSeparator[100] = "------------------------------High Score-----------------------------------";
-
-  printf("\n\n%s\n\n", highScoreSeparator);
-  if (playerOneGameScore > playerHighScore) {
-      playerHighScore = playerOneGameScore;
-      printf("You beat your high score!\nHigh score is now: %d \n\n", playerHighScore);
-    }
-  else {
-        printf("High score is still: %d\n\n", playerHighScore);
-      }
   int playAgain = PlayAgain();
 
   if (playAgain == 1) {
@@ -611,21 +647,6 @@ void OnePlayerSaveScore(int playerHighScore, struct TrieNode* dictionary, int si
   printf("\n\nTotal: %d\n", playerOneGameScore);
 
 
-  //Free dynamically allocated variables - they are no longer needed.
-  for (int i = 0; i < size; i++) {
-    free(boggleBoardTable[i]);
-  }
-  free(boggleBoardTable);
-
-  free(list);
-
-  for (int i = 0; i < size*size; i++) {
-    free(boggleBoardGraph->adjLists[i]);
-  }
-  free(boggleBoardGraph);
-  free(visited);
-
-  FreeTrie(userWordsOne);
 
   //Find high score of user. Instead of keeping track of wins, keeps track of high score.
   char highScoreSeparator[100] = "------------------------------High Score-----------------------------------";
@@ -641,6 +662,33 @@ void OnePlayerSaveScore(int playerHighScore, struct TrieNode* dictionary, int si
   else {
         printf("High score is still: %d\n\n", playerHighScore);
       }
+
+  char str3[MAXLENGTH+1];
+  level = 0;
+  int wordNumber = 0;
+  int viewList = ViewFullList();
+  if (viewList == 1) {
+    PrintTrie(wordList, str3, level, &wordNumber);
+  }
+
+  //Free dynamically allocated variables - they are no longer needed.
+  for (int i = 0; i < size; i++) {
+    free(boggleBoardTable[i]);
+  }
+  free(boggleBoardTable);
+
+  free(list);
+
+  for (int i = 0; i < size*size; i++) {
+    free(boggleBoardGraph->adjLists[i]);
+  }
+  free(boggleBoardGraph);
+  free(visited);
+
+  FreeTrie(userWordsOne);
+  FreeTrie(wordList);
+
+  printf("\n\n");
   int playAgain = PlayAgain();
 
   if (playAgain == 1) {

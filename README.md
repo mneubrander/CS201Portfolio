@@ -1,12 +1,15 @@
 # CS201Portfolio
 
-Video instructions can be found at https://www.youtube.com/watch?v=WB_kxWOzwms&t=643s (or  https://www.youtube.com/channel/UCQsz1IX7ijjDrZxaOMnmLNw).
+Video instructions can be found at https://www.youtube.com/watch?v=WB_kxWOzwms&t=643s (or  https://www.youtube.com/channel/UCQsz1IX7ijjDrZxaOMnmLNw if the previous link does not work).
+
+## Getting Started
+This project is expected to run on Ubuntu 18.04 - my testing was done on the Ubuntu 18.04 app for Windows.
 
 ## Dictionary File
 The project expects a dictionary file to be located in the folder that you are running the project in.
 The file must be:
   - named BoggleDictionary.txt
-  - words of completely **lowercase** letters (no special characters, numbers, uppercase, etc.)
+  - words of completely *lowercase letters* (no special characters, numbers, uppercase, etc.)
   - one word per line (words and newlines only)
 
 ### Script
@@ -14,23 +17,19 @@ Included in the repository is a script - PrepareScript.sh - that will download a
 The process for running the script (demonstrated in the video) is as follows:
   1. Type `chmod 755 PrepareScript.sh` into terminal
   2. Run `./PrepareScript.sh`
-
+This will use wget to download the dictionary, remove unnecessary files downloaded, and remove special characters from the file.
 If you decide to use a different dictionary, make sure it follows all of the required properties.
 
 ## Building and Running
 
 To build the program, simply enter `make` on the command line (there is a Makefile). Use `./boggle` to run the program.
-If for some reason this does not work, you may use `gcc main.c bogglegraph.c trie.c gameplay.c` and run `./a.out`
+If for some reason this does not work, you may use `gcc main.c bogglegraph.c trie.c gameplay.c` and run `./a.out`.
 
 ## Game Play
 
 There are several options that will appear upon running the program - further details about these are provided below.
 However, one common theme of note to all sections is entering a character when the program expects an integer
 *will* cause the program to exit.
-
-### Instructions
-In the instructions tab, an overview of how to play the game (scoring, rules, etc.) is given. Additionally, the functionality
-of each mode of game play is given so that the user does not have to return to the readme.
 
 ### Entering Words
   - **Max Length**: Words have a maximum length of 50 letters - the longest word in the English language is *pneumonoultramicroscopicsilicovolcanoconiosis*,
@@ -62,3 +61,18 @@ of each mode of game play is given so that the user does not have to return to t
     the current high score for that board size is assumed to be zero. **DO NOT MODIFY** this file!!
   - Why would you use one player vs. one player - save progress? Perhaps your friend is playing on your computer, and you don't want their high score to over-write
     yours!
+
+### Instructions
+    In the instructions tab, an overview of how to play the game (scoring, rules, etc.) is given. This is more similar to an instructions manual you would fine in a board game than a readme. Additionally, a brief overview functionality of each mode of game play is given so that the user does not have to return to the readme.
+
+## Data Structures Implemented and Justification
+
+### Game Board - Adjacency List
+I stored the boggle board as an adjacency list as opposed to an adjacency matrix as the graph will be relatively sparse as the size of the board increases (ach node is connected to a maximum of 8 others) - storing this as an adjacency matrix could lead to a good bit of wasted memory compared to an adjacency list.
+
+### Dictionary - Trie
+Storing the dictionary as a trie makes sense because we can both search for words and insert words in O(L) time, where L is the length of the word. Additionally, when the computer is searching for words on the board, it can use the trie to discover when there are no more words beginning with the sequence of letters it is on and cut off that search path.
+
+### Lists of Found Words - Trie
+Using tries to store words found by both users and the computer makes sense as just like with the dictionary file, words will have a relatively limited and not very large Length, and we can insert/search in O(L) time.
+Additionally, a word can only be counted once per board, and a trie will only store a single word once. Furthermore, the trie makes printing in alphabetical order easy.

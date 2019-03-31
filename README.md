@@ -5,14 +5,32 @@ Video instructions can be found at https://www.youtube.com/watch?v=WB_kxWOzwms&t
 ## Getting Started
 This project is expected to run on Ubuntu 18.04 - my testing was done on the Ubuntu 18.04 app for Windows.
 
-## Dictionary File
+### File Structure
+All necessary files **except for the dictionary** (which will be discussed later) will be directly in the CS201Portfolio folder downloaded.
+Files with code are main.c, gameplay.c, trie.c, and bogglegraph.c, along with their corresponding .h header files.
+
+#### main.c
+In main.c, the dictionary is read into the program. The user then chooses their mode of gameplay, which is handled by functions in gameplay.c.
+
+#### gameplay.c
+In gameplay.c, there is code for handling direct aspects of playing the game. This includes the functions for the different modes of gameplay, handling user input,
+and finding words in a board.
+
+#### bogglegraph.c
+In bogglegraph.c, there is code for handling and building the boggle board as a graph.
+
+#### trie.c
+In trie.c, there is code for building and handling tries.
+
+
+### Dictionary File
 The project expects a dictionary file to be located in the folder that you are running the project in.
 The file must be:
   - named BoggleDictionary.txt
   - words of completely *lowercase letters* (no special characters, numbers, uppercase, etc.)
   - one word per line (words and newlines only)
 
-### Script
+#### Script
 Included in the repository is a script - PrepareScript.sh - that will download and prepare a dictionary.
 The process for running the script (demonstrated in the video) is as follows:
   1. Type `chmod 755 PrepareScript.sh` into terminal
@@ -20,7 +38,7 @@ The process for running the script (demonstrated in the video) is as follows:
 This will use wget to download the dictionary, remove unnecessary files downloaded, and remove special characters from the file.
 If you decide to use a different dictionary, make sure it follows all of the required properties.
 
-## Building and Running
+### Building and Running
 
 To build the program, simply enter `make` on the command line (there is a Makefile). Use `./boggle` to run the program.
 If for some reason this does not work, you may use `gcc main.c bogglegraph.c trie.c gameplay.c` and run `./a.out`.

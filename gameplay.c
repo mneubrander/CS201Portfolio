@@ -544,10 +544,10 @@ void OnePlayer(int playerHighScore, struct TrieNode* dictionary, int size) {
   printf("\n\n%s\n\n", highScoreSeparator);
   if (playerOneGameScore > playerHighScore) {
       playerHighScore = playerOneGameScore;
-      printf("You beat your high score!\nHigh score is now: %d \n\n", playerHighScore);
+      printf("You beat your high score!\nHigh score (%d x %d) is now: %d \n\n", size, size, playerHighScore);
   }
   else {
-      printf("High score is still: %d\n\n\n", playerHighScore);
+      printf("High score (%d x %d) is still: %d\n\n\n",size, size, playerHighScore);
   }
 
   char str3[MAXLENGTH+1];
@@ -657,10 +657,10 @@ void OnePlayerSaveScore(int playerHighScore, struct TrieNode* dictionary, int si
       fpHighScore = fopen(boardSizeAsString, "w");
       fprintf(fpHighScore,"%d",playerHighScore);
       fclose(fpHighScore);
-      printf("You beat your high score!\nHigh score is now: %d \n\n", playerHighScore);
+      printf("You beat your high score!\nHigh score (%d x %d) is now: %d \n\n",size, size, playerHighScore);
     }
   else {
-        printf("High score is still: %d\n\n", playerHighScore);
+        printf("High score (%d x %d) is still: %d\n\n", size, size, playerHighScore);
       }
 
   char str3[MAXLENGTH+1];
@@ -748,13 +748,15 @@ void DisplayInstructions(struct TrieNode * dictionary) {
         Each of two players will have a turn to enter their words (on the same board) on a three\n\
         minute timer. You may play several matches in a row, and the computer will keep track of\n\
         the number of wins for each player (until you exit this mode). You may change the board\n\
-        size between matches.\n\
+        size between matches.After the round is over, you will have the option to view the complete\n\
+        list of words found in the board.\n\
   \n\
       ONE PLAYER:\n\
         Though initially this may seem like playing against the computer, it is quite different\n\
         - the only person you can lose to (or beat!) is yourself. Here, the computer keeps track\n\
         of the high score of your consecutive matches. You may not change board size between matches,\n\
-        as comparing raw scores between different size boards doesn't make sense. \n\
+        as comparing raw scores between different size boards doesn't make sense. After the round is over,\n\
+        you will have the option to view the complete list of words found in the board.\n\
   \n\
       ONE PLAYER - SAVE PROGRESS:\n\
         This is just like one player, but saves your high score between sessions. Why would you use one \n\

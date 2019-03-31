@@ -63,15 +63,21 @@ However, one common theme of note to all sections is entering a character when t
     yours!
 
 ### Instructions
-    In the instructions tab, an overview of how to play the game (scoring, rules, etc.) is given. This is more similar to an instructions manual you would fine in a board game than a readme. Additionally, a brief overview functionality of each mode of game play is given so that the user does not have to return to the readme.
+In the instructions tab, an overview of how to play the game (scoring, rules, etc.) is given. This is more similar to an instructions manual you would fine in a
+board game than a readme. Additionally, a brief overview functionality of each mode of game play is given so that the user does not have to return to the readme.
 
-## Data Structures Implemented and Justification
+## Data Structures/Algorithms Implemented and Justification
 
 ### Game Board - Adjacency List
 I stored the boggle board as an adjacency list as opposed to an adjacency matrix as the graph will be relatively sparse as the size of the board increases (ach node is connected to a maximum of 8 others) - storing this as an adjacency matrix could lead to a good bit of wasted memory compared to an adjacency list.
 
 ### Dictionary - Trie
 Storing the dictionary as a trie makes sense because we can both search for words and insert words in O(L) time, where L is the length of the word. Additionally, when the computer is searching for words on the board, it can use the trie to discover when there are no more words beginning with the sequence of letters it is on and cut off that search path.
+
+### Finding Words - Depth First Search
+Using a depth first search to find all of the words in a boggle board makes sense because it will cover all possible paths, and has lower space complexity compared to a
+breadth first search.
+
 
 ### Lists of Found Words - Trie
 Using tries to store words found by both users and the computer makes sense as just like with the dictionary file, words will have a relatively limited and not very large Length, and we can insert/search in O(L) time.

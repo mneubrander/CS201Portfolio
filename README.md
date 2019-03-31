@@ -22,6 +22,9 @@ In bogglegraph.c, there is code for handling and building the boggle board as a 
 #### trie.c
 In trie.c, there is code for building and handling tries.
 
+#### High Score Files
+In one mode, the program writes a high score to a file with title corresponding to the board size. These files will contain only an integer corresponding to the high
+score. These files should not be modifed - if a file contains any other input, the high score will be assumed to be zero.
 
 ### Dictionary File
 The project expects a dictionary file to be located in the folder that you are running the project in.

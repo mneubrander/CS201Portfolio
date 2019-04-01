@@ -140,7 +140,10 @@ struct TrieNode* GetUserWords() {
 
   //ReadExtra();
   printf("Enter word %d (or XXX to quit): ", wordnum);
-  fgets(str, MAXLENGTH, stdin);
+  if(!fgets(str, MAXLENGTH, stdin)) {
+    printf("ERROR: EXPECTED STRING. PROGRAM EXITING - TRY AGAIN\n");
+    exit(1);
+  }
   str[strcspn(str, "\n")] = '\0';
 
   while (strcmp(str, "XXX") != 0) {
@@ -155,7 +158,10 @@ struct TrieNode* GetUserWords() {
         ReadExtra();
       }
       printf("\tNot valid input. Try again: ");
-      fgets(str, MAXLENGTH, stdin);
+      if(!fgets(str, MAXLENGTH, stdin)) {
+        printf("ERROR: EXPECTED STRING. PROGRAM EXITING - TRY AGAIN\n");
+        exit(1);
+      }
       str[strcspn(str, "\n")] = '\0';
     }
     else{
@@ -163,7 +169,10 @@ struct TrieNode* GetUserWords() {
       if(strlen(str) == MAXLENGTH-1) ReadExtra();
       wordnum++;
       printf("Enter word %d (or XXX to quit): ", wordnum);
-      fgets(str, MAXLENGTH, stdin);
+      if(!fgets(str, MAXLENGTH, stdin)) {
+        printf("ERROR: EXPECTED STRING. PROGRAM EXITING - TRY AGAIN\n");
+        exit(1);
+      }
       str[strcspn(str, "\n")] = '\0';
     }
   }

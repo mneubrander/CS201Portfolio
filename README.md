@@ -50,14 +50,14 @@ If for some reason this does not work, you may use `gcc main.c bogglegraph.c tri
 
 There are several options that will appear upon running the program - further details about these are provided below.
 However, one common theme of note to all sections is entering a character when the program expects an integer
-*will* cause the program to exit.
+*will* cause the program to exit. Additionally, enterring ctrl-d where a string is expected when enterring words will cause the program to exit.
 
 ### Entering Words
   - **Max Length**: Words have a maximum length of 50 letters - the longest word in the English language is *pneumonoultramicroscopicsilicovolcanoconiosis*,
     which is 45 characters, so this should be plenty! However, in case a longer word is entered, only the first 50 characters will be read - the rest will be
     discarded. Additionally, words must be all lowercase to be counted. In checking for valid input or not, the first (up to) 50 characters will be counted - if
     any of these are invalid, you will have to try your input again. For this reason, you should type your word and then immediately press enter - do not put a space
-    after your word!
+    after your word! 
   - **Timer**: The game is played on a 3 minute timer. The timer begins once you are able to begin entering words. The time elapsed is checked every time you
     input a word - if more than 3 minutes has elapsed, that word will not be counted and your turn will be up.
 

@@ -1,6 +1,6 @@
 # CS201Portfolio
 
-Video instructions can be found at https://www.youtube.com/watch?v=WB_kxWOzwms&t=643s (or  https://www.youtube.com/channel/UCQsz1IX7ijjDrZxaOMnmLNw if the previous link does not work).
+Video instructions can be found at https://www.youtube.com/watch?v=SDR2xtFmXEA (or the most recent video on https://www.youtube.com/channel/UCQsz1IX7ijjDrZxaOMnmLNw if the previous link does not work).
 
 ## Getting Started
 This project is expected to run on Ubuntu 18.04 - my testing was done on the Ubuntu 18.04 app for Windows.
